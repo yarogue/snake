@@ -1,38 +1,50 @@
-// #include "Board.hpp"
-// #include "Position.hpp"
+#include "Board.hpp"
+#include "Position.hpp"
 
-// ============================================================
-// TODO 1d — Board struct  (implementation)
-// ============================================================
+Position Board::wrap(Position pos) const {
+    return Position{
+        (pos.x % width + width) % width,
+        (pos.y % height + height) % height
+    };
+}
 
-// --- Board::wrap() ---
-// TODO 1d-3:
-//   result.x = (pos.x % width + width) % width
-//   result.y = (pos.y % height + height) % height
-//   return result
-//   NOTE: the double-modulo pattern handles negative values correctly.
-//         e.g. (-1 % 10 + 10) % 10 = 9  ✓
+bool Board::isObstacle(Position pos) const {
+    for (const Obstacle& obs : obstacles) {
+        if (obs.position == pos) {
+            return true;
+        }
+    }
+    return false;
+}
 
-// --- Board::isObstacle() ---
-// TODO 1d-4:
-//   Loop through all obstacles
-//   For each obstacle, check if its position equals pos
-//   If yes → return true
-//   After loop → return false
+void Board::generateObstacles(int count, const std::vector<Position>& forbidden) {
+    obstacles.clear();
+    while (obstacles.size() < count) {
+        Position candidate{ rand() % width, rand() % height };
+        bool isForbidden = false;
+        for (const Position& pos : forbidden) {
+            if (pos == candidate) {
+                isForbidden = true;
+                break;
+            }
+        }
+        if (isForbidden) continue;
+        bool isDuplicate = false;
+        for (const Obstacle& obs : obstacles) {
+            if (obs.position == pos) {
+                isDuplicate = true;
+                break;
+            }
+        }
+        if (isDuplicate) continue;
+        obstacles.push_back(Obstacle{ candidate });
+    }
+}
 
-// --- Board::generateObstacles() ---
-// TODO 1d-5:
-//   Clear the current obstacles list first
-//   Repeat until obstacles.size() == count:
-//     candidate = Position{ rand() % width, rand() % height }
-//     Check candidate is NOT in the forbidden list
-//     Check candidate is NOT already an obstacle (no duplicates)
-//     If clear → add Obstacle{ candidate } to obstacles
-
-// --- Board::create() ---
-// TODO 1d-6:
-//   Board b
-//   b.width  = width
-//   b.height = height
-//   b.obstacles = {} (empty)
-//   return b
+Board Board::create(int width, int height) {
+    Board board;
+    board.width = width;
+    board.height = height;
+    board.obstacles = {};
+    return board;
+}

@@ -1,55 +1,74 @@
-#include "include/Snake.hpp"
-
-#include "../include/Position.hpp"
-#include "../include/Direction.hpp"
-
-// ============================================================
-// TODO 1c — Snake struct  (implementation)
-// ============================================================
-// Implement each method declared in Snake.hpp.
-// The pseudocode below describes what each method should do.
-// ============================================================
-
-// --- Snake::move() ---
-// TODO 1c-3:
-//   1. Compute newHead = getHead() + DirectionUtils::toOffset(currentDirection)
-//   2. Push newHead to the FRONT of body  (body.push_front)
-//   3. Remove the LAST element of body    (body.pop_back)
+#include "Snake.hpp"
 
 void Snake::Move() {
     Position newHead = getHead() +
     DirectionUtils::toOffset(currentDirection);
+    body.push_front(newHead);
+    body.pop_back();
 }
 
-// --- Snake::grow() ---
-// TODO 1c-4:
-//   1. Same as move() but SKIP step 3 (don't pop the tail)
-//   That's it — body grows by one cell.
+void Snake::Grow(){
+    Position newHead = getHead() +
+    DirectionUtils::toOffset(currentDirection);
+    body.push_front(newHead);
+}
 
-// --- Snake::getHead() ---
-// TODO 1c-5:
-//   return body.front()
+Position Snake::getHead() const {
+    return body.front();
+}
 
-// --- Snake::isCollidingWithSelf() ---
-// TODO 1c-6:
-//   head = getHead()
-//   Loop through body starting from index 1 (skip the head itself)
-//   If any element equals head → return true
-//   If loop finishes → return false
 
-// --- Snake::setDirection() ---
-// TODO 1c-7:
-//   Forbidden pairs (don't allow 180-degree reversal):
-//     UP    ↔ DOWN
-//     LEFT  ↔ RIGHT
-//   If newDir is NOT the opposite of currentDirection → update it
-//   Otherwise → do nothing (ignore the input)
+bool Snake::isCollidingWithSelf() const {
+    Position head = getHead();
+    for(size_t i = 1; i < body.size(); ++i){
+        if(body[i] == head){
+            return true;
+        }
+    }
+    return false;
+}
 
-// --- Snake::create() (static factory) ---
-// TODO 1c-8:
-//   snake.currentDirection = startDir
-//   oppositeOffset = -1 * DirectionUtils::toOffset(startDir)
-//     (multiply both x and y by -1)
-//   Loop initialLength times:
-//     push Position{ startPos + (i * oppositeOffset) } into snake.body
-//   return snake
+void Snake::setDirection(Direction newDir){
+    bool isIllegalTurn = false;
+
+    switch(currentDirection){
+        case Direction::UP:
+            if(newDir == Direction::DOWN){
+                isIllegalTurn = true;}
+        break;
+        case Direction::DOWN:
+            if(newDir == Direction::UP){
+            isIllegalTurn = true;}
+        break;
+        case Direction::LEFT:
+            if(newDir == Direction::RIGHT){
+            isIllegalTurn = true;}
+        break;
+        case Direction::RIGHT:
+            if(newDir == Direction::LEFT){
+            isIllegalTurn = true;}
+        break;
+    }
+    if(!isIllegalTurn){
+        currentDirection = newDir;
+    }
+}
+
+Snake Snake::create(Position startPosition, Direction startDirection, int initialLength){
+    Snake snake;
+
+    snake.currentDirection = startDirection;
+
+    Position offset = DirectionUtils::toOffset(startDirection);
+    Position oppositeOffset = Position{-offset.x, -offset.y};
+
+    for(int i = 0; i < initialLength; ++i){
+    Position bodyPos = startPosition;
+    bodyPos.x += i * oppositeOffset.x;
+    bodyPos.y += i * oppositeOffset.y;
+
+    snake.body.push_back(bodyPos);
+
+    }
+    return snake;
+}
