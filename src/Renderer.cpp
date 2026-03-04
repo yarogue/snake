@@ -1,76 +1,66 @@
-// #include "Renderer.hpp"
-// #include <ncurses.h>
+#include "Renderer.hpp"
+#include <ncurses.h>
 
-// ============================================================
-// TODO 3b — Renderer::init() and Renderer::shutdown()
-// ============================================================
+void Renderer::init() {
+  initscr();            // start ncurses mode
+  cbreak();             // read keys immediately (no Enter needed)
+  noecho();             // don't print typed keys on screen
+  keypad(stdscr, TRUE); // enable arrow key support
+  curs_set(0);          // hide the blinking cursor
 
-// --- Renderer::init() ---
-// TODO 3b-1:
-//   Call initscr()
-//   Call cbreak()         → get keystrokes immediately, no Enter needed
-//   Call noecho()         → don't echo typed characters
-//   Call keypad(stdscr, TRUE)  → enable arrow key support
-//   Call curs_set(0)      → hide the cursor (cleaner look)
-//   Set timeout later when GameEngine knows the tick speed
-//   (or call timeout(tickMs) here if passed as parameter)
+  // TODO: Set timeout later when GameEngine knows the tick speed
+}
 
-// --- Renderer::shutdown() ---
-// TODO 3b-2:
-//   Call endwin()
-//   That's it — ncurses cleans up the rest.
+void Renderer::shutdown() { endwin(); }
 
-// ============================================================
-// TODO 3c — Renderer::drawBoard()
-// ============================================================
-// TODO 3c-1:
-//   Call clear() to wipe the previous frame
-//
-//   Draw top border:
-//     Loop x from 0 to board.width+1
-//     mvprintw(offsetY, offsetX + x, "-")
-//
-//   Draw bottom border:
-//     Loop x from 0 to board.width+1
-//     mvprintw(offsetY + board.height + 1, offsetX + x, "-")
-//
-//   Draw left and right borders:
-//     Loop y from 0 to board.height+1
-//     mvprintw(offsetY + y, offsetX, "|")
-//     mvprintw(offsetY + y, offsetX + board.width + 1, "|")
-//
-//   Draw corners:
-//     mvprintw(offsetY, offsetX, "+")
-//     (do all 4 corners)
-//
-//   Draw each obstacle:
-//     For each obs in board.obstacles:
-//       mvprintw(offsetY + 1 + obs.position.y,
-//                offsetX + 1 + obs.position.x, "#")
+void Renderer::drawBoard(const Board &board) const {
 
-// ============================================================
-// TODO 3d — Renderer::drawSnake(), drawFood(), drawHUD(), drawGameOver()
-// ============================================================
+  clear();
 
-// --- drawSnake() ---
-// TODO 3d-1:
-//   Draw head: mvprintw(y, x, "@")   (use snake.getHead())
-//   Loop through body from index 1 onward:
-//     Draw each segment: mvprintw(y, x, "o")
-//   Remember to add offsetY+1 and offsetX+1 to all coordinates!
+  //   Drawing borders:
+  for (int x = 0; x <= board.width + 1; ++x) {
+    mvprintw(offsetY, offsetX + x, "-");                    // top border
+    mvprintw(offsetY + board.height + 1, offsetX + x, "-"); // bottom border
+  }
 
-// --- drawFood() ---
-// TODO 3d-2:
-//   mvprintw(offsetY + 1 + foodPos.y, offsetX + 1 + foodPos.x, "$")
+  for (int y = 0; y <= board.height + 1; ++y) {
+    mvprintw(offsetY + y, offsetX, "|");                   // left border
+    mvprintw(offsetY + y, offsetX + board.width + 1, "|"); // right border
+  }
 
-// --- drawHUD() ---
-// TODO 3d-3:
-//   mvprintw(0, 0, "Score: %d   Level: %d", score, level)
-//   Call refresh() HERE (only once per frame, after all drawing is done)
+  //   Draw corners:
 
-// --- drawGameOver() ---
-// TODO 3d-4:
-//   mvprintw(board.height/2, board.width/2 - 5, "GAME OVER")
-//   mvprintw(board.height/2 + 1, board.width/2 - 8, "Press any key to exit")
-//   refresh()
-//   Call getch() to wait for a keypress before exiting
+  mvprintw(offsetY, offsetX, "+"); // top-left corner
+
+  mvprintw(offsetY, offsetX + board.width + 1, "+"); // top-right corner
+
+  mvprintw(offsetY + board.height + 1, offsetX, "+"); // bottom-left corner
+
+  mvprintw(offsetY + board.height + 1, // bottom-right corner
+           offsetX + board.width + 1, "+");
+}
+
+void Renderer::drawSnake(const Snake &snake) const {
+  Position head = snake.getHead();
+  mvprintw(offsetY + 1 + head.y, offsetX + 1 + head.x, "@");
+
+  for (size_t i = 1; i < snake.body.size(); ++i) {
+    mvprintw(offsetY + 1 + snake.body[i].y, offsetX + 1 + snake.body[i].x, "o");
+  }
+}
+
+void Renderer::drawFood(Position foodPos) const {
+  mvprintw(offsetY + 1 + foodPos.y, offsetX + 1 + foodPos.x, "$");
+}
+
+void Renderer::drawHUD(int score, int level) const {
+  mvprintw(0, 0, "Score: %d   Level: %d", score, level);
+  refresh();
+}
+
+void Renderer::drawGameOver(const Board &board) const {
+  mvprintw(board.height / 2, board.width / 2 - 5, "GAME OVER");
+  mvprintw(board.height / 2 + 1, board.width / 2 - 8, "Press any key to exit");
+  refresh();
+  getch();
+}
