@@ -1,0 +1,3 @@
+/home/timur/cppProjects/snake/cmake-build-debug/CMakeFiles/snake.dir
+/home/timur/cppProjects/snake/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/timur/cppProjects/snake/cmake-build-debug/CMakeFiles/rebuild_cache.dir

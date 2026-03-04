@@ -1,6 +1,6 @@
 #pragma once
-#include "Position.hpp"
 #include "Direction.hpp"
+#include "Position.hpp"
 #include <deque>
 
 // ============================================================
@@ -54,19 +54,18 @@
 
 struct Snake {
 
-  //Member variables
+  // Member variables
   std::deque<Position> body;
   Direction currentDirection;
 
-  //Member functions declarations
-  void Move();
-  void Grow();
+  // Member functions declarations
+  void move();
+  void grow();
   Position getHead() const;
   bool isCollidingWithSelf() const;
   void setDirection(Direction newDir);
 
-  //Static factory function
-  static Snake create(Position   startPosition,
-                      Direction  startDirection,
-                      int        initialLength);
+  // Static factory function
+  static Snake create(Position startPosition, Direction startDirection,
+                      int initialLength);
 };
