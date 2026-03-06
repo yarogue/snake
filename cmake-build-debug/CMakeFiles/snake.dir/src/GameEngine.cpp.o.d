@@ -54,7 +54,7 @@ CMakeFiles/snake.dir/src/GameEngine.cpp.o: \
  /usr/include/c++/12/backward/binders.h \
  /usr/include/c++/12/bits/range_access.h \
  /usr/include/c++/12/bits/vector.tcc \
- /home/timur/cppProjects/snake/include/Snake.hpp \
+ /home/timur/cppProjects/snake/include/InputHandler.hpp \
  /home/timur/cppProjects/snake/include/Direction.hpp \
  /usr/include/c++/12/iostream /usr/include/c++/12/ostream \
  /usr/include/c++/12/ios /usr/include/c++/12/iosfwd \
@@ -162,17 +162,18 @@ CMakeFiles/snake.dir/src/GameEngine.cpp.o: \
  /usr/include/c++/12/bits/locale_facets.tcc \
  /usr/include/c++/12/bits/basic_ios.tcc \
  /usr/include/c++/12/bits/ostream.tcc /usr/include/c++/12/istream \
- /usr/include/c++/12/bits/istream.tcc /usr/include/c++/12/deque \
- /usr/include/c++/12/bits/stl_deque.h /usr/include/c++/12/bits/deque.tcc \
+ /usr/include/c++/12/bits/istream.tcc /usr/include/c++/12/optional \
+ /usr/include/c++/12/bits/enable_special_members.h \
  /home/timur/cppProjects/snake/include/Level.hpp \
  /home/timur/cppProjects/snake/include/Renderer.hpp \
- /home/timur/cppProjects/snake/include/InputHandler.hpp \
- /usr/include/c++/12/optional \
- /usr/include/c++/12/bits/enable_special_members.h \
- /usr/include/c++/12/chrono /usr/include/c++/12/bits/chrono.h \
- /usr/include/c++/12/ratio /usr/include/c++/12/limits \
- /usr/include/c++/12/ctime /usr/include/c++/12/bits/parse_numbers.h \
- /usr/include/c++/12/sstream /usr/include/c++/12/bits/sstream.tcc \
+ /home/timur/cppProjects/snake/include/Snake.hpp \
+ /usr/include/c++/12/deque /usr/include/c++/12/bits/stl_deque.h \
+ /usr/include/c++/12/bits/deque.tcc /usr/include/c++/12/chrono \
+ /usr/include/c++/12/bits/chrono.h /usr/include/c++/12/ratio \
+ /usr/include/c++/12/limits /usr/include/c++/12/ctime \
+ /usr/include/c++/12/bits/parse_numbers.h /usr/include/c++/12/sstream \
+ /usr/include/c++/12/bits/sstream.tcc /usr/include/curses.h \
+ /usr/include/ncurses_dll.h /usr/include/unctrl.h /usr/include/curses.h \
  /usr/include/c++/12/thread /usr/include/c++/12/stop_token \
  /usr/include/c++/12/atomic /usr/include/c++/12/bits/atomic_base.h \
  /usr/include/c++/12/bits/atomic_lockfree_defines.h \
@@ -204,5 +205,4 @@ CMakeFiles/snake.dir/src/GameEngine.cpp.o: \
  /usr/include/c++/12/bits/atomic_timed_wait.h \
  /usr/include/c++/12/bits/this_thread_sleep.h \
  /usr/include/x86_64-linux-gnu/sys/time.h /usr/include/semaphore.h \
- /usr/include/x86_64-linux-gnu/bits/semaphore.h /usr/include/curses.h \
- /usr/include/ncurses_dll.h /usr/include/unctrl.h /usr/include/curses.h
+ /usr/include/x86_64-linux-gnu/bits/semaphore.h

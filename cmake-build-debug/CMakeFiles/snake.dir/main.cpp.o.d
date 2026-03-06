@@ -1,5 +1,10 @@
 CMakeFiles/snake.dir/main.cpp.o: /home/timur/cppProjects/snake/main.cpp \
- /usr/include/stdc-predef.h /usr/include/c++/12/iostream \
+ /usr/include/stdc-predef.h \
+ /home/timur/cppProjects/snake/include/GameEngine.hpp \
+ /home/timur/cppProjects/snake/include/Board.hpp \
+ /home/timur/cppProjects/snake/include/Position.hpp \
+ /home/timur/cppProjects/snake/include/Obstacle.hpp \
+ /usr/include/c++/12/vector /usr/include/c++/12/bits/stl_algobase.h \
  /usr/include/x86_64-linux-gnu/c++/12/bits/c++config.h \
  /usr/include/x86_64-linux-gnu/c++/12/bits/os_defines.h \
  /usr/include/features.h /usr/include/features-time64.h \
@@ -10,10 +15,49 @@ CMakeFiles/snake.dir/main.cpp.o: /home/timur/cppProjects/snake/main.cpp \
  /usr/include/x86_64-linux-gnu/gnu/stubs.h \
  /usr/include/x86_64-linux-gnu/gnu/stubs-64.h \
  /usr/include/x86_64-linux-gnu/c++/12/bits/cpu_defines.h \
- /usr/include/c++/12/pstl/pstl_config.h /usr/include/c++/12/ostream \
+ /usr/include/c++/12/pstl/pstl_config.h \
+ /usr/include/c++/12/bits/functexcept.h \
+ /usr/include/c++/12/bits/exception_defines.h \
+ /usr/include/c++/12/bits/cpp_type_traits.h \
+ /usr/include/c++/12/ext/type_traits.h \
+ /usr/include/c++/12/ext/numeric_traits.h \
+ /usr/include/c++/12/bits/stl_pair.h /usr/include/c++/12/type_traits \
+ /usr/include/c++/12/bits/move.h /usr/include/c++/12/bits/utility.h \
+ /usr/include/c++/12/compare /usr/include/c++/12/concepts \
+ /usr/include/c++/12/bits/stl_iterator_base_types.h \
+ /usr/include/c++/12/bits/iterator_concepts.h \
+ /usr/include/c++/12/bits/ptr_traits.h \
+ /usr/include/c++/12/bits/ranges_cmp.h \
+ /usr/include/c++/12/bits/stl_iterator_base_funcs.h \
+ /usr/include/c++/12/bits/concept_check.h \
+ /usr/include/c++/12/debug/assertions.h \
+ /usr/include/c++/12/bits/stl_iterator.h /usr/include/c++/12/new \
+ /usr/include/c++/12/bits/exception.h \
+ /usr/include/c++/12/bits/stl_construct.h \
+ /usr/include/c++/12/debug/debug.h \
+ /usr/include/c++/12/bits/predefined_ops.h \
+ /usr/include/c++/12/bits/allocator.h \
+ /usr/include/x86_64-linux-gnu/c++/12/bits/c++allocator.h \
+ /usr/include/c++/12/bits/new_allocator.h \
+ /usr/include/c++/12/bits/memoryfwd.h \
+ /usr/include/c++/12/bits/stl_uninitialized.h \
+ /usr/include/c++/12/ext/alloc_traits.h \
+ /usr/include/c++/12/bits/alloc_traits.h \
+ /usr/include/c++/12/bits/stl_vector.h \
+ /usr/include/c++/12/initializer_list \
+ /usr/include/c++/12/bits/stl_bvector.h \
+ /usr/include/c++/12/bits/functional_hash.h \
+ /usr/include/c++/12/bits/hash_bytes.h /usr/include/c++/12/bits/refwrap.h \
+ /usr/include/c++/12/bits/invoke.h \
+ /usr/include/c++/12/bits/stl_function.h \
+ /usr/include/c++/12/backward/binders.h \
+ /usr/include/c++/12/bits/range_access.h \
+ /usr/include/c++/12/bits/vector.tcc \
+ /home/timur/cppProjects/snake/include/InputHandler.hpp \
+ /home/timur/cppProjects/snake/include/Direction.hpp \
+ /usr/include/c++/12/iostream /usr/include/c++/12/ostream \
  /usr/include/c++/12/ios /usr/include/c++/12/iosfwd \
- /usr/include/c++/12/bits/stringfwd.h \
- /usr/include/c++/12/bits/memoryfwd.h /usr/include/c++/12/bits/postypes.h \
+ /usr/include/c++/12/bits/stringfwd.h /usr/include/c++/12/bits/postypes.h \
  /usr/include/c++/12/cwchar /usr/include/wchar.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/x86_64-linux-gnu/bits/floatn.h \
@@ -28,23 +72,10 @@ CMakeFiles/snake.dir/main.cpp.o: /home/timur/cppProjects/snake/main.cpp \
  /usr/include/x86_64-linux-gnu/bits/types/FILE.h \
  /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
  /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
- /usr/include/c++/12/exception /usr/include/c++/12/bits/exception.h \
- /usr/include/c++/12/bits/exception_ptr.h \
- /usr/include/c++/12/bits/exception_defines.h \
+ /usr/include/c++/12/exception /usr/include/c++/12/bits/exception_ptr.h \
  /usr/include/c++/12/bits/cxxabi_init_exception.h \
- /usr/include/c++/12/typeinfo /usr/include/c++/12/bits/hash_bytes.h \
- /usr/include/c++/12/new /usr/include/c++/12/bits/move.h \
- /usr/include/c++/12/type_traits \
- /usr/include/c++/12/bits/nested_exception.h \
- /usr/include/c++/12/bits/char_traits.h /usr/include/c++/12/compare \
- /usr/include/c++/12/concepts /usr/include/c++/12/bits/stl_construct.h \
- /usr/include/c++/12/bits/stl_iterator_base_types.h \
- /usr/include/c++/12/bits/iterator_concepts.h \
- /usr/include/c++/12/bits/ptr_traits.h \
- /usr/include/c++/12/bits/ranges_cmp.h \
- /usr/include/c++/12/bits/stl_iterator_base_funcs.h \
- /usr/include/c++/12/bits/concept_check.h \
- /usr/include/c++/12/debug/assertions.h /usr/include/c++/12/cstdint \
+ /usr/include/c++/12/typeinfo /usr/include/c++/12/bits/nested_exception.h \
+ /usr/include/c++/12/bits/char_traits.h /usr/include/c++/12/cstdint \
  /usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h /usr/include/stdint.h \
  /usr/include/x86_64-linux-gnu/bits/types.h \
  /usr/include/x86_64-linux-gnu/bits/typesizes.h \
@@ -87,29 +118,9 @@ CMakeFiles/snake.dir/main.cpp.o: /home/timur/cppProjects/snake/main.cpp \
  /usr/include/x86_64-linux-gnu/c++/12/bits/atomic_word.h \
  /usr/include/x86_64-linux-gnu/sys/single_threaded.h \
  /usr/include/c++/12/bits/locale_classes.h /usr/include/c++/12/string \
- /usr/include/c++/12/bits/allocator.h \
- /usr/include/x86_64-linux-gnu/c++/12/bits/c++allocator.h \
- /usr/include/c++/12/bits/new_allocator.h \
- /usr/include/c++/12/bits/functexcept.h \
- /usr/include/c++/12/bits/cpp_type_traits.h \
  /usr/include/c++/12/bits/ostream_insert.h \
  /usr/include/c++/12/bits/cxxabi_forced.h \
- /usr/include/c++/12/bits/stl_iterator.h \
- /usr/include/c++/12/ext/type_traits.h \
- /usr/include/c++/12/bits/stl_function.h \
- /usr/include/c++/12/backward/binders.h \
- /usr/include/c++/12/ext/numeric_traits.h \
- /usr/include/c++/12/bits/stl_algobase.h \
- /usr/include/c++/12/bits/stl_pair.h /usr/include/c++/12/bits/utility.h \
- /usr/include/c++/12/debug/debug.h \
- /usr/include/c++/12/bits/predefined_ops.h \
- /usr/include/c++/12/bits/refwrap.h /usr/include/c++/12/bits/invoke.h \
- /usr/include/c++/12/bits/range_access.h \
- /usr/include/c++/12/initializer_list \
- /usr/include/c++/12/bits/basic_string.h \
- /usr/include/c++/12/ext/alloc_traits.h \
- /usr/include/c++/12/bits/alloc_traits.h /usr/include/c++/12/string_view \
- /usr/include/c++/12/bits/functional_hash.h \
+ /usr/include/c++/12/bits/basic_string.h /usr/include/c++/12/string_view \
  /usr/include/c++/12/bits/ranges_base.h \
  /usr/include/c++/12/bits/max_size_type.h /usr/include/c++/12/numbers \
  /usr/include/c++/12/bits/string_view.tcc \
@@ -150,21 +161,10 @@ CMakeFiles/snake.dir/main.cpp.o: /home/timur/cppProjects/snake/main.cpp \
  /usr/include/c++/12/bits/locale_facets.tcc \
  /usr/include/c++/12/bits/basic_ios.tcc \
  /usr/include/c++/12/bits/ostream.tcc /usr/include/c++/12/istream \
- /usr/include/c++/12/bits/istream.tcc \
- /home/timur/cppProjects/snake/include/GameEngine.hpp \
- /home/timur/cppProjects/snake/include/Board.hpp \
- /home/timur/cppProjects/snake/include/Position.hpp \
- /home/timur/cppProjects/snake/include/Obstacle.hpp \
- /usr/include/c++/12/vector /usr/include/c++/12/bits/stl_uninitialized.h \
- /usr/include/c++/12/bits/stl_vector.h \
- /usr/include/c++/12/bits/stl_bvector.h \
- /usr/include/c++/12/bits/vector.tcc \
- /home/timur/cppProjects/snake/include/Snake.hpp \
- /home/timur/cppProjects/snake/include/Direction.hpp \
- /usr/include/c++/12/deque /usr/include/c++/12/bits/stl_deque.h \
- /usr/include/c++/12/bits/deque.tcc \
+ /usr/include/c++/12/bits/istream.tcc /usr/include/c++/12/optional \
+ /usr/include/c++/12/bits/enable_special_members.h \
  /home/timur/cppProjects/snake/include/Level.hpp \
  /home/timur/cppProjects/snake/include/Renderer.hpp \
- /home/timur/cppProjects/snake/include/InputHandler.hpp \
- /usr/include/c++/12/optional \
- /usr/include/c++/12/bits/enable_special_members.h
+ /home/timur/cppProjects/snake/include/Snake.hpp \
+ /usr/include/c++/12/deque /usr/include/c++/12/bits/stl_deque.h \
+ /usr/include/c++/12/bits/deque.tcc /usr/include/c++/12/ctime

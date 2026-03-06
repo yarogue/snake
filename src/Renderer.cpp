@@ -38,6 +38,13 @@ void Renderer::drawBoard(const Board &board) const {
 
   mvprintw(offsetY + board.height + 1, // bottom-right corner
            offsetX + board.width + 1, "+");
+
+  // Draw obstacles
+  for (const Obstacle &obs : board.obstacles) {
+    for (const Position &cell : obs.cells) {
+      mvprintw(offsetY + 1 + cell.y, offsetX + 1 + cell.x, "#");
+    }
+  }
 }
 
 void Renderer::drawSnake(const Snake &snake) const {
@@ -53,8 +60,32 @@ void Renderer::drawFood(Position foodPos) const {
   mvprintw(offsetY + 1 + foodPos.y, offsetX + 1 + foodPos.x, "$");
 }
 
-void Renderer::drawHUD(int score, int level) const {
+void Renderer::drawHUD(int score, int level, const Board &board) const {
   mvprintw(0, 0, "Score: %d   Level: %d", score, level);
+  mvprintw(offsetY + board.height + 3, offsetX, "Press Q to quit | P to pause");
+  refresh();
+}
+
+void Renderer::drawPaused(const Board &board) const {
+  int centerY = offsetY + board.height / 2 - 3;
+  int centerX = offsetX + (board.width - 48) / 2;
+
+  mvprintw(centerY, centerX,
+           "########     ###    ##     ##  ######  ######## ");
+  mvprintw(centerY + 1, centerX,
+           "##     ##   ## ##   ##     ## ##    ## ##       ");
+  mvprintw(centerY + 2, centerX,
+           "##     ##  ##   ##  ##     ## ##       ##       ");
+  mvprintw(centerY + 3, centerX,
+           "########  ##     ## ##     ##  ######  ######   ");
+  mvprintw(centerY + 4, centerX,
+           "##        ######### ##     ##       ## ##       ");
+  mvprintw(centerY + 5, centerX,
+           "##        ##     ## ##     ## ##    ## ##       ");
+  mvprintw(centerY + 6, centerX,
+           "##        ##     ##  #######   ######  ######## ");
+
+  mvprintw(centerY + 8, centerX + 10, "Press P to resume");
   refresh();
 }
 
