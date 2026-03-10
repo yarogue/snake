@@ -54,6 +54,7 @@ CMakeFiles/snake.dir/src/Renderer.cpp.o: \
  /usr/include/c++/12/backward/binders.h \
  /usr/include/c++/12/bits/range_access.h \
  /usr/include/c++/12/bits/vector.tcc \
+ /home/timur/cppProjects/snake/include/LetterPickup.hpp \
  /home/timur/cppProjects/snake/include/Snake.hpp \
  /home/timur/cppProjects/snake/include/Direction.hpp \
  /usr/include/c++/12/iostream /usr/include/c++/12/ostream \
@@ -164,5 +165,11 @@ CMakeFiles/snake.dir/src/Renderer.cpp.o: \
  /usr/include/c++/12/bits/ostream.tcc /usr/include/c++/12/istream \
  /usr/include/c++/12/bits/istream.tcc /usr/include/c++/12/deque \
  /usr/include/c++/12/bits/stl_deque.h /usr/include/c++/12/bits/deque.tcc \
- /usr/include/curses.h /usr/include/ncurses_dll.h /usr/include/unctrl.h \
- /usr/include/curses.h
+ /home/timur/cppProjects/snake/include/WordPuzzle.hpp \
+ /usr/include/c++/12/set /usr/include/c++/12/bits/stl_tree.h \
+ /usr/include/c++/12/ext/aligned_buffer.h \
+ /usr/include/c++/12/bits/node_handle.h \
+ /usr/include/c++/12/bits/stl_set.h \
+ /usr/include/c++/12/bits/stl_multiset.h \
+ /usr/include/c++/12/bits/erase_if.h /usr/include/curses.h \
+ /usr/include/ncurses_dll.h /usr/include/unctrl.h /usr/include/curses.h

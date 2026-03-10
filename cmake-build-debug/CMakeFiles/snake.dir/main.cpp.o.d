@@ -163,8 +163,17 @@ CMakeFiles/snake.dir/main.cpp.o: /home/timur/cppProjects/snake/main.cpp \
  /usr/include/c++/12/bits/ostream.tcc /usr/include/c++/12/istream \
  /usr/include/c++/12/bits/istream.tcc /usr/include/c++/12/optional \
  /usr/include/c++/12/bits/enable_special_members.h \
+ /home/timur/cppProjects/snake/include/LetterPickup.hpp \
  /home/timur/cppProjects/snake/include/Level.hpp \
+ /usr/include/c++/12/utility /usr/include/c++/12/bits/stl_relops.h \
  /home/timur/cppProjects/snake/include/Renderer.hpp \
  /home/timur/cppProjects/snake/include/Snake.hpp \
  /usr/include/c++/12/deque /usr/include/c++/12/bits/stl_deque.h \
- /usr/include/c++/12/bits/deque.tcc /usr/include/c++/12/ctime
+ /usr/include/c++/12/bits/deque.tcc \
+ /home/timur/cppProjects/snake/include/WordPuzzle.hpp \
+ /usr/include/c++/12/set /usr/include/c++/12/bits/stl_tree.h \
+ /usr/include/c++/12/ext/aligned_buffer.h \
+ /usr/include/c++/12/bits/node_handle.h \
+ /usr/include/c++/12/bits/stl_set.h \
+ /usr/include/c++/12/bits/stl_multiset.h \
+ /usr/include/c++/12/bits/erase_if.h /usr/include/c++/12/ctime

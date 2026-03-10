@@ -1,34 +1,33 @@
 #include "GameEngine.hpp"
-#include <chrono>
+#include <cstdlib>
 #include <ncurses.h>
-#include <thread>
 
 GameEngine GameEngine::create(const Level &level) {
   GameEngine engine;
 
-  // Seting level and creating board
   engine.currentLevel = level;
   engine.board = Board::create(level.boardWidth, level.boardHeight);
 
-  // Creating snake at center o board, facing RIGHT
   engine.snake =
       Snake::create(Position{level.boardWidth / 2, level.boardHeight / 2},
                     Direction::RIGHT, level.initialSnakeLen);
 
-  // Initializing game state
   engine.score = 0;
   engine.running = true;
   engine.paused = false;
+  engine.lastDeathChoice = 'q';
+  engine.puzzlesSolved = 0;
+  engine.puzzleIndex = 0;
+  engine.puzzlesStartCount = 0;
 
-  // Initializing renderer and set timeout
   engine.renderer.init();
+  engine.renderer.offsetX = 1;
+  engine.renderer.offsetY = 2;
   timeout(level.tickIntervalMs);
 
-  // Generating obstacles (avoiding snake + safe zone around it)
+  // Safe zone around the snake
   std::vector<Position> forbidden(engine.snake.body.begin(),
                                   engine.snake.body.end());
-
-  // Add a safe zone around the snake so obstacles don't spawn too close
   Position center{level.boardWidth / 2, level.boardHeight / 2};
   for (int dx = -5; dx <= 5; ++dx) {
     for (int dy = -3; dy <= 3; ++dy) {
@@ -38,8 +37,8 @@ GameEngine GameEngine::create(const Level &level) {
 
   engine.board.generateObstacles(level.obstacleCount, forbidden);
 
-  // Spawning food
-  engine.spawnFood();
+  // Load first puzzle
+  engine.nextPuzzle();
 
   return engine;
 }
@@ -47,35 +46,41 @@ GameEngine GameEngine::create(const Level &level) {
 void GameEngine::run() {
   while (running) {
     update();
-    // Draw everything
+
     renderer.drawBoard(board);
-    renderer.drawFood(foodPos);
     renderer.drawSnake(snake);
     renderer.drawHUD(score, currentLevel.levelNumber, board);
 
-    // Show pause overlay if paused
     if (paused) {
       renderer.drawPaused(board);
+    } else {
+      renderer.drawLetters(letters, currentPuzzle);
+      renderer.drawPuzzleHUD(currentPuzzle, puzzlesSolved - puzzlesStartCount,
+                             currentLevel.puzzlesToSolve, board);
     }
   }
-  // Clean up after game end
   renderer.shutdown();
 }
 
 void GameEngine::update() {
   int key = getch();
+
   if (inputHandler.isQuitKey(key)) {
     running = false;
     return;
   }
 
-  // Toggle pause on 'p' or 'P'
   if (key == 'p' || key == 'P') {
     paused = !paused;
     return;
   }
 
-  // Skip game logic while paused
+  // Cycle color palette
+  if (key == 'c' || key == 'C') {
+    renderer.nextPalette();
+    return;
+  }
+
   if (paused)
     return;
 
@@ -83,39 +88,248 @@ void GameEngine::update() {
   if (dir.has_value()) {
     snake.setDirection(dir.value());
   }
+
   snake.move();
   Position wrappedHead = board.wrap(snake.getHead());
   snake.body.pop_front();
   snake.body.push_front(wrappedHead);
+
   if (snake.isCollidingWithSelf()) {
     handleDeath();
     return;
   }
+
   if (checkWallOrObstacleCollision()) {
     handleDeath();
     return;
   }
-  handleFoodEaten();
+
+  handleLetterPickup();
+
+  if (checkLevelComplete()) {
+    running = false; // Signal level complete (main.cpp handles progression)
+  }
 }
 
-// Other GameEngine methods
+void GameEngine::spawnLetters() {
+  letters.clear();
+  auto missing = currentPuzzle.getMissingLetters();
 
-void GameEngine::spawnFood() {
-  bool validPosition = false;
-  while (!validPosition) {
-    Position candidate{rand() % board.width, rand() % board.height};
-    bool isSnakeBody = false;
-    for (const auto &segment : snake.body) {
-      if (segment == candidate) {
-        isSnakeBody = true;
-        break;
+  // Place correct letters (one per missing unique letter)
+  for (char c : missing) {
+    bool placed = false;
+    int attempts = 0;
+    while (!placed && attempts < 100) {
+      attempts++;
+      Position pos{rand() % board.width, rand() % board.height};
+
+      // Check not on snake, obstacle, or existing letter
+      bool valid = true;
+      for (const auto &seg : snake.body) {
+        if (seg == pos) {
+          valid = false;
+          break;
+        }
       }
-    }
-    if (!isSnakeBody && !board.isObstacle(candidate)) {
-      foodPos = candidate;
-      validPosition = true;
+      if (!valid)
+        continue;
+      if (board.isObstacle(pos))
+        continue;
+      for (const auto &lp : letters) {
+        if (lp.pos == pos) {
+          valid = false;
+          break;
+        }
+      }
+      if (!valid)
+        continue;
+
+      letters.push_back(LetterPickup{pos, c});
+      placed = true;
     }
   }
+
+  // Add wrong letters to fill up to 5 total
+  const char wrongChars[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#";
+  while (letters.size() < 5) {
+    char c = wrongChars[rand() % (sizeof(wrongChars) - 1)];
+    // Make sure it's not one of the correct missing letters
+    if (missing.count(c))
+      continue;
+
+    bool placed = false;
+    int attempts = 0;
+    while (!placed && attempts < 100) {
+      attempts++;
+      Position pos{rand() % board.width, rand() % board.height};
+
+      bool valid = true;
+      for (const auto &seg : snake.body) {
+        if (seg == pos) {
+          valid = false;
+          break;
+        }
+      }
+      if (!valid)
+        continue;
+      if (board.isObstacle(pos))
+        continue;
+      for (const auto &lp : letters) {
+        if (lp.pos == pos) {
+          valid = false;
+          break;
+        }
+      }
+      if (!valid)
+        continue;
+
+      letters.push_back(LetterPickup{pos, c});
+      placed = true;
+    }
+  }
+}
+
+void GameEngine::handleLetterPickup() {
+  Position head = snake.getHead();
+
+  for (size_t i = 0; i < letters.size(); ++i) {
+    if (letters[i].pos == head) {
+      char picked = letters[i].letter;
+
+      // Snake grows on ANY letter pickup
+      snake.grow();
+
+      // Check if it's a correct letter
+      if (currentPuzzle.revealLetter(picked)) {
+        score += 10;
+      }
+
+      // Remove picked letter from the board
+      letters.erase(letters.begin() + i);
+
+      // If puzzle complete, advance
+      if (currentPuzzle.isComplete()) {
+        puzzlesSolved++;
+
+        if (!checkLevelComplete()) {
+          nextPuzzle();
+        }
+      } else {
+        // Respawn a new letter to keep board populated
+        auto missing = currentPuzzle.getMissingLetters();
+        const char wrongChars[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#";
+
+        // Decide: spawn a correct or wrong letter
+        char newChar;
+        if (!missing.empty() && (rand() % 2 == 0)) {
+          // Pick a random missing letter
+          auto it = missing.begin();
+          std::advance(it, rand() % missing.size());
+          newChar = *it;
+        } else {
+          // Pick a wrong letter
+          do {
+            newChar = wrongChars[rand() % (sizeof(wrongChars) - 1)];
+          } while (missing.count(newChar));
+        }
+
+        // Find valid position for new letter
+        int attempts = 0;
+        while (attempts < 100) {
+          attempts++;
+          Position pos{rand() % board.width, rand() % board.height};
+          bool valid = true;
+          for (const auto &seg : snake.body) {
+            if (seg == pos) {
+              valid = false;
+              break;
+            }
+          }
+          if (!valid)
+            continue;
+          if (board.isObstacle(pos))
+            continue;
+          for (const auto &lp : letters) {
+            if (lp.pos == pos) {
+              valid = false;
+              break;
+            }
+          }
+          if (!valid)
+            continue;
+
+          letters.push_back(LetterPickup{pos, newChar});
+          break;
+        }
+      }
+
+      break; // Only pick up one letter per tick
+    }
+  }
+}
+
+void GameEngine::nextPuzzle() {
+  if (puzzleIndex < (int)currentLevel.puzzles.size()) {
+    auto &p = currentLevel.puzzles[puzzleIndex];
+    currentPuzzle = WordPuzzle::create(p.first, p.second);
+    puzzleIndex++;
+
+    if (letters.empty()) {
+      // First puzzle — spawn everything fresh
+      spawnLetters();
+    } else {
+      // Keep existing letters, but handle conflicts
+      auto missing = currentPuzzle.getMissingLetters();
+      const char wrongChars[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#";
+
+      // Replace any existing letters that are now correct for new puzzle
+      for (auto &lp : letters) {
+        if (missing.count(lp.letter)) {
+          char newChar;
+          do {
+            newChar = wrongChars[rand() % (sizeof(wrongChars) - 1)];
+          } while (missing.count(newChar));
+          lp.letter = newChar;
+        }
+      }
+
+      // Spawn the correct letters for the new puzzle
+      for (char c : missing) {
+        int attempts = 0;
+        while (attempts < 100) {
+          attempts++;
+          Position pos{rand() % board.width, rand() % board.height};
+          bool valid = true;
+          for (const auto &seg : snake.body) {
+            if (seg == pos) {
+              valid = false;
+              break;
+            }
+          }
+          if (!valid)
+            continue;
+          if (board.isObstacle(pos))
+            continue;
+          for (const auto &lp : letters) {
+            if (lp.pos == pos) {
+              valid = false;
+              break;
+            }
+          }
+          if (!valid)
+            continue;
+
+          letters.push_back(LetterPickup{pos, c});
+          break;
+        }
+      }
+    }
+  }
+}
+
+bool GameEngine::checkLevelComplete() const {
+  int solvedThisLevel = puzzlesSolved - puzzlesStartCount;
+  return solvedThisLevel >= currentLevel.puzzlesToSolve;
 }
 
 bool GameEngine::checkWallOrObstacleCollision() const {
@@ -126,19 +340,11 @@ bool GameEngine::checkSelfCollision() const {
   return snake.isCollidingWithSelf();
 }
 
-void GameEngine::handleFoodEaten() {
-  if (snake.getHead() == foodPos) {
-    snake.grow();
-    score++;
-    spawnFood();
-  }
-}
-
 void GameEngine::handleDeath() {
   renderer.drawBoard(board);
   renderer.drawSnake(snake);
-  renderer.drawGameOver(board);
-
-  // End game
+  lastDeathChoice = renderer.drawGameOver(board, score, puzzlesSolved);
   running = false;
 }
+
+bool GameEngine::wantsRestart() const { return lastDeathChoice == 'r'; }
