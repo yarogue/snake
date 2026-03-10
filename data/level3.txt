@@ -1,0 +1,29 @@
+levelNumber=3
+boardWidth=50
+boardHeight=20
+obstacleCount=14
+initialSnakeLen=3
+tickIntervalMs=100
+puzzlesToSolve=5
+
+[puzzles]
+SOVEREIGN|A supreme ruler, especially a monarch
+TYRANNY|Use of force or power to rule in a cruel way
+MANUSCRIPT|An original text written by hand
+CHANCELLOR|A high-ranking official or a senior judge
+EXECUTION|The carrying out of a death sentence
+BATTLEMENT|The jagged gaps at the top of a castle wall for firing arrows
+INHERITANCE|Money or titles passed down when someone dies
+AMBASSADOR|A diplomat sent as a representative to another land
+TREACHERY|Betrayal of one's country or king
+PROPHECY|A prediction of what will happen in the future
+CATAPULT|A machine used to throw heavy stones at walls
+ARCHERY|The practice of using a bow and arrow
+MONASTERY|A building where monks live and work
+LEGENDARY|Someone famous for many generations
+PROCLAMATION|A formal public announcement
+CONQUEROR|A person who takes control of a land by force
+ALCHEMIST|An ancient scientist who studied magic and chemistry
+DRAWBRIDGE|A gate that can be raised or lowered to cross a moat
+CONSULTATION|A formal meeting for discussion or advice
+SUCCESSION|The process of inheriting a title or office

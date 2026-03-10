@@ -1,0 +1,19 @@
+levelNumber=1
+boardWidth=50
+boardHeight=20
+obstacleCount=3
+initialSnakeLen=3
+tickIntervalMs=200
+puzzlesToSolve=3
+
+[puzzles]
+WIZARD|Man with magical powers
+KING|The man who reigns on England and the knight has the duty to protect
+SWORD|Weapon the knight uses to defend himself
+BRIDGE|Where we can walk over rivers without getting wet
+HORSE|An animal the knight travels on
+RIVER|Where water runs
+LADY|Woman of high society
+ARMOUR|Serves to protect the knight in battles
+CASTLE|The house of kings, ladies and knights
+SADDLE|Where the knight sits on the horse

@@ -201,6 +201,30 @@ src/GameEngine.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/snake.dir/build.make CMakeFiles/snake.dir/src/GameEngine.cpp.s
 .PHONY : src/GameEngine.cpp.s
 
+src/HighScoreManager.o: src/HighScoreManager.cpp.o
+.PHONY : src/HighScoreManager.o
+
+# target to build an object file
+src/HighScoreManager.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/snake.dir/build.make CMakeFiles/snake.dir/src/HighScoreManager.cpp.o
+.PHONY : src/HighScoreManager.cpp.o
+
+src/HighScoreManager.i: src/HighScoreManager.cpp.i
+.PHONY : src/HighScoreManager.i
+
+# target to preprocess a source file
+src/HighScoreManager.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/snake.dir/build.make CMakeFiles/snake.dir/src/HighScoreManager.cpp.i
+.PHONY : src/HighScoreManager.cpp.i
+
+src/HighScoreManager.s: src/HighScoreManager.cpp.s
+.PHONY : src/HighScoreManager.s
+
+# target to generate assembly for a file
+src/HighScoreManager.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/snake.dir/build.make CMakeFiles/snake.dir/src/HighScoreManager.cpp.s
+.PHONY : src/HighScoreManager.cpp.s
+
 src/InputHandler.o: src/InputHandler.cpp.o
 .PHONY : src/InputHandler.o
 
@@ -224,6 +248,78 @@ src/InputHandler.s: src/InputHandler.cpp.s
 src/InputHandler.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/snake.dir/build.make CMakeFiles/snake.dir/src/InputHandler.cpp.s
 .PHONY : src/InputHandler.cpp.s
+
+src/LevelLoader.o: src/LevelLoader.cpp.o
+.PHONY : src/LevelLoader.o
+
+# target to build an object file
+src/LevelLoader.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/snake.dir/build.make CMakeFiles/snake.dir/src/LevelLoader.cpp.o
+.PHONY : src/LevelLoader.cpp.o
+
+src/LevelLoader.i: src/LevelLoader.cpp.i
+.PHONY : src/LevelLoader.i
+
+# target to preprocess a source file
+src/LevelLoader.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/snake.dir/build.make CMakeFiles/snake.dir/src/LevelLoader.cpp.i
+.PHONY : src/LevelLoader.cpp.i
+
+src/LevelLoader.s: src/LevelLoader.cpp.s
+.PHONY : src/LevelLoader.s
+
+# target to generate assembly for a file
+src/LevelLoader.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/snake.dir/build.make CMakeFiles/snake.dir/src/LevelLoader.cpp.s
+.PHONY : src/LevelLoader.cpp.s
+
+src/LinkedList.o: src/LinkedList.cpp.o
+.PHONY : src/LinkedList.o
+
+# target to build an object file
+src/LinkedList.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/snake.dir/build.make CMakeFiles/snake.dir/src/LinkedList.cpp.o
+.PHONY : src/LinkedList.cpp.o
+
+src/LinkedList.i: src/LinkedList.cpp.i
+.PHONY : src/LinkedList.i
+
+# target to preprocess a source file
+src/LinkedList.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/snake.dir/build.make CMakeFiles/snake.dir/src/LinkedList.cpp.i
+.PHONY : src/LinkedList.cpp.i
+
+src/LinkedList.s: src/LinkedList.cpp.s
+.PHONY : src/LinkedList.s
+
+# target to generate assembly for a file
+src/LinkedList.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/snake.dir/build.make CMakeFiles/snake.dir/src/LinkedList.cpp.s
+.PHONY : src/LinkedList.cpp.s
+
+src/Menu.o: src/Menu.cpp.o
+.PHONY : src/Menu.o
+
+# target to build an object file
+src/Menu.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/snake.dir/build.make CMakeFiles/snake.dir/src/Menu.cpp.o
+.PHONY : src/Menu.cpp.o
+
+src/Menu.i: src/Menu.cpp.i
+.PHONY : src/Menu.i
+
+# target to preprocess a source file
+src/Menu.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/snake.dir/build.make CMakeFiles/snake.dir/src/Menu.cpp.i
+.PHONY : src/Menu.cpp.i
+
+src/Menu.s: src/Menu.cpp.s
+.PHONY : src/Menu.s
+
+# target to generate assembly for a file
+src/Menu.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/snake.dir/build.make CMakeFiles/snake.dir/src/Menu.cpp.s
+.PHONY : src/Menu.cpp.s
 
 src/Renderer.o: src/Renderer.cpp.o
 .PHONY : src/Renderer.o
@@ -291,9 +387,21 @@ help:
 	@echo "... src/GameEngine.o"
 	@echo "... src/GameEngine.i"
 	@echo "... src/GameEngine.s"
+	@echo "... src/HighScoreManager.o"
+	@echo "... src/HighScoreManager.i"
+	@echo "... src/HighScoreManager.s"
 	@echo "... src/InputHandler.o"
 	@echo "... src/InputHandler.i"
 	@echo "... src/InputHandler.s"
+	@echo "... src/LevelLoader.o"
+	@echo "... src/LevelLoader.i"
+	@echo "... src/LevelLoader.s"
+	@echo "... src/LinkedList.o"
+	@echo "... src/LinkedList.i"
+	@echo "... src/LinkedList.s"
+	@echo "... src/Menu.o"
+	@echo "... src/Menu.i"
+	@echo "... src/Menu.s"
 	@echo "... src/Renderer.o"
 	@echo "... src/Renderer.i"
 	@echo "... src/Renderer.s"

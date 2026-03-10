@@ -153,6 +153,62 @@ CMakeFiles/snake.dir/src/GameEngine.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/snake.dir/src/GameEngine.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/timur/cppProjects/snake/src/GameEngine.cpp -o CMakeFiles/snake.dir/src/GameEngine.cpp.s
 
+CMakeFiles/snake.dir/src/LevelLoader.cpp.o: CMakeFiles/snake.dir/flags.make
+CMakeFiles/snake.dir/src/LevelLoader.cpp.o: /home/timur/cppProjects/snake/src/LevelLoader.cpp
+CMakeFiles/snake.dir/src/LevelLoader.cpp.o: CMakeFiles/snake.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/timur/cppProjects/snake/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/snake.dir/src/LevelLoader.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/snake.dir/src/LevelLoader.cpp.o -MF CMakeFiles/snake.dir/src/LevelLoader.cpp.o.d -o CMakeFiles/snake.dir/src/LevelLoader.cpp.o -c /home/timur/cppProjects/snake/src/LevelLoader.cpp
+
+CMakeFiles/snake.dir/src/LevelLoader.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/snake.dir/src/LevelLoader.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/timur/cppProjects/snake/src/LevelLoader.cpp > CMakeFiles/snake.dir/src/LevelLoader.cpp.i
+
+CMakeFiles/snake.dir/src/LevelLoader.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/snake.dir/src/LevelLoader.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/timur/cppProjects/snake/src/LevelLoader.cpp -o CMakeFiles/snake.dir/src/LevelLoader.cpp.s
+
+CMakeFiles/snake.dir/src/HighScoreManager.cpp.o: CMakeFiles/snake.dir/flags.make
+CMakeFiles/snake.dir/src/HighScoreManager.cpp.o: /home/timur/cppProjects/snake/src/HighScoreManager.cpp
+CMakeFiles/snake.dir/src/HighScoreManager.cpp.o: CMakeFiles/snake.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/timur/cppProjects/snake/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/snake.dir/src/HighScoreManager.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/snake.dir/src/HighScoreManager.cpp.o -MF CMakeFiles/snake.dir/src/HighScoreManager.cpp.o.d -o CMakeFiles/snake.dir/src/HighScoreManager.cpp.o -c /home/timur/cppProjects/snake/src/HighScoreManager.cpp
+
+CMakeFiles/snake.dir/src/HighScoreManager.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/snake.dir/src/HighScoreManager.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/timur/cppProjects/snake/src/HighScoreManager.cpp > CMakeFiles/snake.dir/src/HighScoreManager.cpp.i
+
+CMakeFiles/snake.dir/src/HighScoreManager.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/snake.dir/src/HighScoreManager.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/timur/cppProjects/snake/src/HighScoreManager.cpp -o CMakeFiles/snake.dir/src/HighScoreManager.cpp.s
+
+CMakeFiles/snake.dir/src/Menu.cpp.o: CMakeFiles/snake.dir/flags.make
+CMakeFiles/snake.dir/src/Menu.cpp.o: /home/timur/cppProjects/snake/src/Menu.cpp
+CMakeFiles/snake.dir/src/Menu.cpp.o: CMakeFiles/snake.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/timur/cppProjects/snake/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/snake.dir/src/Menu.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/snake.dir/src/Menu.cpp.o -MF CMakeFiles/snake.dir/src/Menu.cpp.o.d -o CMakeFiles/snake.dir/src/Menu.cpp.o -c /home/timur/cppProjects/snake/src/Menu.cpp
+
+CMakeFiles/snake.dir/src/Menu.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/snake.dir/src/Menu.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/timur/cppProjects/snake/src/Menu.cpp > CMakeFiles/snake.dir/src/Menu.cpp.i
+
+CMakeFiles/snake.dir/src/Menu.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/snake.dir/src/Menu.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/timur/cppProjects/snake/src/Menu.cpp -o CMakeFiles/snake.dir/src/Menu.cpp.s
+
+CMakeFiles/snake.dir/src/LinkedList.cpp.o: CMakeFiles/snake.dir/flags.make
+CMakeFiles/snake.dir/src/LinkedList.cpp.o: /home/timur/cppProjects/snake/src/LinkedList.cpp
+CMakeFiles/snake.dir/src/LinkedList.cpp.o: CMakeFiles/snake.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/timur/cppProjects/snake/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/snake.dir/src/LinkedList.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/snake.dir/src/LinkedList.cpp.o -MF CMakeFiles/snake.dir/src/LinkedList.cpp.o.d -o CMakeFiles/snake.dir/src/LinkedList.cpp.o -c /home/timur/cppProjects/snake/src/LinkedList.cpp
+
+CMakeFiles/snake.dir/src/LinkedList.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/snake.dir/src/LinkedList.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/timur/cppProjects/snake/src/LinkedList.cpp > CMakeFiles/snake.dir/src/LinkedList.cpp.i
+
+CMakeFiles/snake.dir/src/LinkedList.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/snake.dir/src/LinkedList.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/timur/cppProjects/snake/src/LinkedList.cpp -o CMakeFiles/snake.dir/src/LinkedList.cpp.s
+
 # Object files for target snake
 snake_OBJECTS = \
 "CMakeFiles/snake.dir/main.cpp.o" \
@@ -160,7 +216,11 @@ snake_OBJECTS = \
 "CMakeFiles/snake.dir/src/Board.cpp.o" \
 "CMakeFiles/snake.dir/src/Renderer.cpp.o" \
 "CMakeFiles/snake.dir/src/InputHandler.cpp.o" \
-"CMakeFiles/snake.dir/src/GameEngine.cpp.o"
+"CMakeFiles/snake.dir/src/GameEngine.cpp.o" \
+"CMakeFiles/snake.dir/src/LevelLoader.cpp.o" \
+"CMakeFiles/snake.dir/src/HighScoreManager.cpp.o" \
+"CMakeFiles/snake.dir/src/Menu.cpp.o" \
+"CMakeFiles/snake.dir/src/LinkedList.cpp.o"
 
 # External object files for target snake
 snake_EXTERNAL_OBJECTS =
@@ -171,11 +231,15 @@ snake: CMakeFiles/snake.dir/src/Board.cpp.o
 snake: CMakeFiles/snake.dir/src/Renderer.cpp.o
 snake: CMakeFiles/snake.dir/src/InputHandler.cpp.o
 snake: CMakeFiles/snake.dir/src/GameEngine.cpp.o
+snake: CMakeFiles/snake.dir/src/LevelLoader.cpp.o
+snake: CMakeFiles/snake.dir/src/HighScoreManager.cpp.o
+snake: CMakeFiles/snake.dir/src/Menu.cpp.o
+snake: CMakeFiles/snake.dir/src/LinkedList.cpp.o
 snake: CMakeFiles/snake.dir/build.make
 snake: /usr/lib/x86_64-linux-gnu/libcurses.so
 snake: /usr/lib/x86_64-linux-gnu/libform.so
 snake: CMakeFiles/snake.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/timur/cppProjects/snake/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable snake"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/timur/cppProjects/snake/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Linking CXX executable snake"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/snake.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

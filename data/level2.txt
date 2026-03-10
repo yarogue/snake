@@ -1,0 +1,24 @@
+levelNumber=2
+boardWidth=50
+boardHeight=20
+obstacleCount=8
+initialSnakeLen=3
+tickIntervalMs=150
+puzzlesToSolve=4
+
+[puzzles]
+VILLAGER|A person who lives in a small town or rural community
+KNIGHTHOOD|The code of conduct and qualities of an ideal knight
+MINSTREL|A medieval singer or musician who tells stories
+PRISONER|Someone kept in a dungeon against their will
+DRAGON|A mythical fire-breathing beast
+FORTRESS|A heavily protected building or strategic post
+CHAINMAIL|Flexible armor made of interlinked metal rings
+COURTYARD|An open area inside the castle walls
+BANQUET|A large, formal feast with lots of food
+TOURNAMENT|A sporting competition where knights practice fighting
+GUARDIAN|Someone who protects a person or a place
+CHARIOT|A vehicle with two wheels pulled by horses
+MESSENGER|A person who carries news from one kingdom to another
+KINGDOM|The entire land and people ruled by a King
+SHIELD|A protective tool held in the hand to block attacks
