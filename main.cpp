@@ -47,12 +47,48 @@
 int main() {
   srand(time(nullptr));
 
-  // TODO: implement the pseudocode above
-  // STEP 1: Define file paths
-  // STEP 2: Load levels with LevelLoader::loadLevel()
-  // STEP 3: Validate each level with LevelLoader::validateLevel()
-  // STEP 4: Run Menu::menuLoop()
-  // STEP 5: Free all levels with LevelLoader::freeLevel()
+  // ---- TEST: LevelLoader ----
+  const int LEVEL_COUNT = 3;
+  std::string levelFiles[LEVEL_COUNT] = {
+      "data/level1.txt", "data/level2.txt", "data/level3.txt"};
+
+  Level *levels[LEVEL_COUNT];
+
+  for (int i = 0; i < LEVEL_COUNT; i++) {
+    levels[i] = LevelLoader::loadLevel(levelFiles[i]);
+
+    if (levels[i] == nullptr) {
+      std::cout << "ERROR: Failed to load " << levelFiles[i] << std::endl;
+      return 1;
+    }
+
+    if (!LevelLoader::validateLevel(levels[i])) {
+      std::cout << "ERROR: Validation failed for " << levelFiles[i]
+                << std::endl;
+      return 1;
+    }
+
+    // Print loaded data to verify
+    std::cout << "--- Level " << levels[i]->levelNumber << " ---" << std::endl;
+    std::cout << "  Board: " << levels[i]->boardWidth << "x"
+              << levels[i]->boardHeight << std::endl;
+    std::cout << "  Obstacles: " << levels[i]->obstacleCount << std::endl;
+    std::cout << "  Snake len: " << levels[i]->initialSnakeLen << std::endl;
+    std::cout << "  Tick: " << levels[i]->tickIntervalMs << "ms" << std::endl;
+    std::cout << "  Puzzles to solve: " << levels[i]->puzzlesToSolve
+              << std::endl;
+    std::cout << "  Puzzles loaded: " << levels[i]->puzzles.size() << std::endl;
+    std::cout << "  First puzzle: " << levels[i]->puzzles[0].first << " | "
+              << levels[i]->puzzles[0].second << std::endl;
+    std::cout << std::endl;
+  }
+
+  // Cleanup
+  for (int i = 0; i < LEVEL_COUNT; i++) {
+    LevelLoader::freeLevel(levels[i]);
+  }
+  std::cout << "All levels loaded, validated, and freed successfully!"
+            << std::endl;
 
   return 0;
 }

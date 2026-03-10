@@ -1,81 +1,111 @@
 #include "LevelLoader.hpp"
 #include <fstream>
 #include <iostream>
-#include <sstream>
-
-// ============================================================
-// TODO Phase 1 — LevelLoader (implementation)
-// ============================================================
-// Implement the three functions declared in LevelLoader.hpp.
-// Read the header file TODOs for detailed pseudocode.
-// ============================================================
 
 namespace LevelLoader {
 
-// ────────────────────────────────────────────
-// TODO 1a — loadLevel
-// ────────────────────────────────────────────
-// PSEUDOCODE:
-//   1. Open file with std::ifstream
-//   2. If open fails → print error → return nullptr
-//   3. Allocate: Level* level = new Level;
-//   4. Read lines in a loop:
-//      a. If line is empty → skip
-//      b. If line is "[puzzles]" → switch to puzzle-reading mode
-//      c. In config mode:
-//         - Find '=' position
-//         - Extract key (before '=') and value (after '=')
-//         - Match key to level fields:
-//           "levelNumber"   → level->levelNumber = stoi(value)
-//           "boardWidth"    → level->boardWidth = stoi(value)
-//           "boardHeight"   → level->boardHeight = stoi(value)
-//           "obstacleCount" → level->obstacleCount = stoi(value)
-//           "initialSnakeLen" → level->initialSnakeLen = stoi(value)
-//           "tickIntervalMs"  → level->tickIntervalMs = stoi(value)
-//           "puzzlesToSolve"  → level->puzzlesToSolve = stoi(value)
-//      d. In puzzle mode:
-//         - Find '|' position
-//         - Extract word (before '|') and hint (after '|')
-//         - Push {word, hint} pair into level->puzzles
-//   5. Close file
-//   6. Return level
-// ────────────────────────────────────────────
+
+// Loading level
 Level *loadLevel(const std::string &filename) {
-  // TODO: implement
-  return nullptr;
+
+  std::string line;
+
+  std::ifstream file(filename);
+
+  // is file opened check
+  if (!file.is_open()) {
+    std::cout << "Error: could not open file!" << std::endl;
+    return nullptr;
+  }
+
+  // new level object alloc
+  auto level = new Level;
+
+  // default values init
+  level->levelNumber     = 0;
+  level->boardWidth      = 0;
+  level->boardHeight     = 0;
+  level->obstacleCount   = 0;
+  level->initialSnakeLen = 0;
+  level->tickIntervalMs  = 0;
+  level->puzzlesToSolve  = 0;
+
+  bool readingPuzzles = false;
+
+  // Read lines in loop
+  while (std::getline(file, line)) {
+    // Step 4a: Skip empty lines
+    if (line.empty()) continue;
+
+    //  Check for [puzzles] marker
+    if (line == "[puzzles]") {
+      readingPuzzles = true;
+      continue;
+    }
+
+    // Puzzle mode - read word|hint pairs
+    if (readingPuzzles) {
+      size_t pipePos = line.find('|');
+      if (pipePos != std::string::npos) {
+        std::string word = line.substr(0, pipePos);
+        std::string hint = line.substr(pipePos + 1);
+        level->puzzles.emplace_back(word, hint);
+      }
+    }
+    // Config mode - read key=value pairs
+    else {
+      size_t eqPos = line.find('=');
+      if (eqPos != std::string::npos) {
+        std::string key = line.substr(0, eqPos);
+        std::string value = line.substr(eqPos + 1);
+
+        key.erase(0, key.find_first_not_of(" \t"));
+        key.erase(key.find_last_not_of(" \t") + 1);
+        value.erase(0, value.find_first_not_of(" \t"));
+        value.erase(value.find_last_not_of(" \t") + 1);
+
+        // Match key to level fields
+        if (key == "levelNumber") {
+          level->levelNumber = std::stoi(value);
+        } else if (key == "boardWidth") {
+          level->boardWidth = std::stoi(value);
+        } else if (key == "boardHeight") {
+          level->boardHeight = std::stoi(value);
+        } else if (key == "obstacleCount") {
+          level->obstacleCount = std::stoi(value);
+        } else if (key == "initialSnakeLen") {
+          level->initialSnakeLen = std::stoi(value);
+        } else if (key == "tickIntervalMs") {
+          level->tickIntervalMs = std::stoi(value);
+        } else if (key == "puzzlesToSolve") {
+          level->puzzlesToSolve = std::stoi(value);
+        }
+      }
+    }
+  }
+
+  file.close();
+
+  return level;
 }
 
-// ────────────────────────────────────────────
-// TODO 1b — validateLevel
-// ────────────────────────────────────────────
-// PSEUDOCODE:
-//   1. If level is nullptr → print "null level" → return false
-//   2. Check each field:
-//      - boardWidth > 0       (else print "invalid board width")
-//      - boardHeight > 0      (else print "invalid board height")
-//      - obstacleCount >= 0   (else print "invalid obstacle count")
-//      - initialSnakeLen > 0  (else print "invalid snake length")
-//      - tickIntervalMs > 0   (else print "invalid tick interval")
-//      - puzzlesToSolve > 0   (else print "need at least 1 puzzle to solve")
-//      - puzzles.size() > 0   (else print "no puzzles loaded")
-//      - puzzlesToSolve <= puzzles.size()
-//        (else print "puzzlesToSolve exceeds available puzzles")
-//   3. Return true if ALL checks pass, false on first failure
-// ────────────────────────────────────────────
+// Validate level
 bool validateLevel(const Level *level) {
-  // TODO: implement
-  return false;
+
+  if (level == nullptr)            {return false;}
+  if (level->boardWidth <= 0)      {return false;}
+  if (level->boardHeight <= 0)     {return false;}
+  if (level->obstacleCount < 0)    {return false;}
+  if (level->initialSnakeLen <= 0) {return false;}
+  if (level->tickIntervalMs <= 0)  {return false;}
+  if (level->puzzlesToSolve <= 0)  {return false;}
+  if (level->puzzles.empty())      {return false;}
+
+  return true;
 }
 
-// ────────────────────────────────────────────
-// TODO 1c — freeLevel
-// ────────────────────────────────────────────
-// PSEUDOCODE:
-//   1. Call: delete level;
-//   This pairs with the 'new' in loadLevel().
-// ────────────────────────────────────────────
-void freeLevel(Level *level) {
-  // TODO: implement
+void freeLevel(const Level *level) {
+    delete level;
 }
 
 } // namespace LevelLoader

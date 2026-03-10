@@ -1,6 +1,7 @@
 #pragma once
 #include "Level.hpp"
 #include <string>
+#include <fstream>
 
 // ============================================================
 // TODO Phase 1 — LevelLoader (header)
@@ -68,6 +69,6 @@ namespace LevelLoader {
 
 Level *loadLevel(const std::string &filename);
 bool validateLevel(const Level *level);
-void freeLevel(Level *level);
+void freeLevel(const Level *level);
 
 } // namespace LevelLoader

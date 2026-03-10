@@ -164,5 +164,4 @@ CMakeFiles/snake.dir/src/LevelLoader.cpp.o: \
  /usr/include/c++/12/bits/istream.tcc /usr/include/c++/12/bits/codecvt.h \
  /usr/include/x86_64-linux-gnu/c++/12/bits/basic_file.h \
  /usr/include/x86_64-linux-gnu/c++/12/bits/c++io.h \
- /usr/include/c++/12/bits/fstream.tcc /usr/include/c++/12/iostream \
- /usr/include/c++/12/sstream /usr/include/c++/12/bits/sstream.tcc
+ /usr/include/c++/12/bits/fstream.tcc /usr/include/c++/12/iostream
