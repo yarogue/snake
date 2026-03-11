@@ -1,4 +1,6 @@
 #include "HighScoreManager.hpp"
+
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -31,11 +33,54 @@ namespace HighScoreManager {
 //         std::getline(ss, token, ',') → entries[i].puzzlesSolved = stoi(token)
 //   6. Return entries
 // ────────────────────────────────────────────
-HighScoreEntry *loadHighScores(const std::string &filename, int &count) {
-  // TODO: implement
-  count = 0;
-  return nullptr;
-}
+
+
+  //loadHighScores
+  HighScoreEntry *loadHighScores(const std::string &filename, int &count) {
+    // 1. Open file with std::ifstream
+    std::ifstream file(filename);
+
+    if (!file.is_open()) {
+      count = 0;
+      return nullptr;
+    }
+
+    std::vector<std::string> lines;
+    std::string line;
+    while (std::getline(file, line)) {
+      if (!line.empty()) {
+        lines.push_back(line);
+      }
+    }
+
+    count = lines.size();
+
+    if (count == 0) {
+      return nullptr;
+    }
+
+    // Allocate array
+    auto* entries = new HighScoreEntry[count];
+
+    // For each stored line:
+    for (int i = 0; i < count; ++i) {
+
+      std::stringstream ss(lines[i]);
+      std::string token;
+
+      std::getline(ss, token, ',');
+      entries[i].level = std::stoi(token);
+
+      std::getline(ss, token, ',');
+      entries[i].score = std::stoi(token);
+
+      std::getline(ss, token, ',');
+      entries[i].puzzlesSolved = std::stoi(token);
+    }
+
+    // Returning entries
+    return entries;
+  }
 
 // ────────────────────────────────────────────
 // TODO 2b — saveHighScore
@@ -49,9 +94,40 @@ HighScoreEntry *loadHighScores(const std::string &filename, int &count) {
 //   6. Close file
 //   7. Call freeHighScores() to release the array
 // ────────────────────────────────────────────
-void saveHighScore(const std::string &filename, int level, int score,
-                   int puzzlesSolved) {
-  // TODO: implement
+void saveHighScore(const std::string &filename, const int level, const int score,
+                   const int puzzlesSolved) {
+
+    int count = 0;
+
+    HighScoreEntry* entries = loadHighScores(filename, count);
+
+    if (entries == nullptr) {
+      return;
+    }
+
+    for (int i = 0; i < count; ++i) {
+      if (entries[i].level == level) {
+
+        if (score > entries[i].score) {
+          entries[i].score = score;
+          entries[i].puzzlesSolved = puzzlesSolved;
+        }
+
+        break;
+      }
+    }
+
+  if (std::ofstream outFile(filename); outFile.is_open()) {
+      for (int i = 0; i < count; ++i) {
+        outFile << entries[i].level << ","
+                << entries[i].score << ","
+                << entries[i].puzzlesSolved << "\n";
+      }
+
+      outFile.close();
+    }
+
+    freeHighScores(entries);
 }
 
 // ────────────────────────────────────────────
@@ -66,7 +142,27 @@ void saveHighScore(const std::string &filename, int level, int score,
 //   6. Call freeHighScores() to release the array
 // ────────────────────────────────────────────
 void printHighScores(const std::string &filename) {
-  // TODO: implement
+
+    int count = 0;
+
+    HighScoreEntry* entries = loadHighScores(filename, count);
+
+    if (entries == nullptr) {
+      std::cout << "No high scores yet.\n";
+      return;
+    }
+
+    std::cout << "=== HIGH SCORES ===\n";
+
+    std::cout << "Level | Score | Puzzles\n";
+
+    for (int i = 0; i < count; ++i) {
+      std::cout << entries[i].level << " | "
+                << entries[i].score << " | "
+                << entries[i].puzzlesSolved << "\n";
+    }
+
+    freeHighScores(entries);
 }
 
 // ────────────────────────────────────────────

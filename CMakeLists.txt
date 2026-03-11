@@ -36,6 +36,9 @@ if(WIN32)
 
   target_link_libraries(snake PRIVATE pdcurses)
   target_include_directories(snake PRIVATE deps/pdcurses)
+
+  # Static link MinGW runtime so the exe doesn't need DLLs
+  target_link_options(snake PRIVATE -static)
 else()
   # Linux / macOS — use system ncurses
   find_package(Curses REQUIRED)
