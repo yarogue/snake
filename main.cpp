@@ -1,4 +1,5 @@
 #include "LevelLoader.hpp"
+#include "HighScoreManager.hpp"
 #include "Menu.hpp"
 #include <cstdlib>
 #include <ctime>
@@ -87,8 +88,21 @@ int main() {
   for (auto & level : levels) {
     LevelLoader::freeLevel(level);
   }
-  std::cout << "All levels loaded, validated, and freed successfully!"
-            << std::endl;
+  std::cout << "All levels loaded, validated, and freed successfully!\n\n";
+
+  // ---- TEST: HighScoreManager ----
+  std::string highScoreFile = "data/highscores.txt";
+
+  std::cout << "Before saving:\n";
+  HighScoreManager::printHighScores(highScoreFile);
+
+  std::cout << "\nSaving score: level=1, score=250, puzzles=5\n";
+  HighScoreManager::saveHighScore(highScoreFile, 1, 250, 5);
+
+  std::cout << "\nAfter saving:\n";
+  HighScoreManager::printHighScores(highScoreFile);
+
+  std::cout << "\nHighScoreManager test complete!\n";
 
   return 0;
 }
