@@ -77,7 +77,8 @@ void printHighScores(const std::string &filename) {
 //   This pairs with new[] in loadHighScores().
 // ────────────────────────────────────────────
 void freeHighScores(HighScoreEntry *entries) {
-  // TODO: implement
+
+  delete[] entries;
 }
 
 } // namespace HighScoreManager

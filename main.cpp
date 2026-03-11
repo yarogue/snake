@@ -50,7 +50,7 @@ int main() {
   // ---- TEST: LevelLoader ----
   const int LEVEL_COUNT = 3;
   std::string levelFiles[LEVEL_COUNT] = {
-      "data/level1.txt", "data/level2.txt", "data/level3.txt"};
+    "data/level1.txt", "data/level2.txt", "data/level3.txt"};
 
   Level *levels[LEVEL_COUNT];
 
@@ -68,7 +68,7 @@ int main() {
       return 1;
     }
 
-    // Print loaded data to verify
+    // Printing loaded data to verify
     std::cout << "--- Level " << levels[i]->levelNumber << " ---" << std::endl;
     std::cout << "  Board: " << levels[i]->boardWidth << "x"
               << levels[i]->boardHeight << std::endl;
@@ -83,9 +83,9 @@ int main() {
     std::cout << std::endl;
   }
 
-  // Cleanup
-  for (int i = 0; i < LEVEL_COUNT; i++) {
-    LevelLoader::freeLevel(levels[i]);
+  // Cleanups
+  for (auto & level : levels) {
+    LevelLoader::freeLevel(level);
   }
   std::cout << "All levels loaded, validated, and freed successfully!"
             << std::endl;
