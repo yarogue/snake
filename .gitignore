@@ -1,0 +1,22 @@
+# === Build directories ===
+cmake-build-*/
+build/
+out/
+
+# === Compiled objects ===
+*.o
+*.obj
+*.exe
+*.out
+
+# === IDE files ===
+.idea/
+*.iml
+.vscode/
+
+# === OS junk ===
+.DS_Store
+Thumbs.db
+
+# === PDCurses dependency (built from source, cloned via git) ===
+deps/pdcurses/

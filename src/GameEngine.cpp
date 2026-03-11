@@ -1,6 +1,6 @@
 #include "GameEngine.hpp"
 #include <cstdlib>
-#include <ncurses.h>
+#include <curses.h>
 
 GameEngine GameEngine::create(const Level &level) {
   GameEngine engine;

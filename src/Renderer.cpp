@@ -1,5 +1,5 @@
 #include "Renderer.hpp"
-#include <ncurses.h>
+#include <curses.h>
 
 void Renderer::init() {
   initscr();

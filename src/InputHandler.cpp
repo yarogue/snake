@@ -1,5 +1,5 @@
 #include "InputHandler.hpp"
-#include <ncurses.h>
+#include <curses.h>
 
 std::optional<Direction> InputHandler::pollInput(int key) const {
     if (key == ERR) return std::nullopt;
