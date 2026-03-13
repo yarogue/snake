@@ -1,7 +1,9 @@
 # === Build directories ===
 cmake-build-*/
 build/
+build-release/
 out/
+release/
 
 # === Compiled objects ===
 *.o
