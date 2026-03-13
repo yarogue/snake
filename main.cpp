@@ -12,13 +12,42 @@
 //
 
 #include <iostream>
+#include <bits/fs_fwd.h>
 
-int main(int argc, char* argv[]) {
+//Position struct
+struct pos {
+    int x;
+    int y;
+};
 
-    // TODO 1a: Print out argc and argv here
-    //          (see ROADMAP.md step 1a)
+void drawTile(const int x, const int y, const char character) {
+    std::cout << "\033[" << (y + 1) << ";" << (x + 1) << "H" << character;
+}
 
-    std::cout << "Snake game — start coding from ROADMAP.md!" << std::endl;
+void drawLevel(std::string level, int levelWidth, int levelHeight) {
 
+    for (int y = 0; y < levelHeight; y++) {
+        for (int x = 0; x < levelWidth; x++) {
+            drawTile(x, y, level[y * levelWidth + x]);
+        }
+    }
+}
+
+//Main
+int main(const int argc, char* argv[]) {
+    const std::string level = "########"
+                              "#......#"
+                              "#......#"
+                              "#......#"
+                              "#......#"
+                              "#......#"
+                              "#......#"
+                              "########";
+
+    constexpr int levelWidth  = 8;
+    constexpr int levelHeight = 8;
+    // Clear screen and draw
+    std::cout << "\033[2J\033[H";
+    drawLevel(level, levelWidth, levelHeight);
     return 0;
 }

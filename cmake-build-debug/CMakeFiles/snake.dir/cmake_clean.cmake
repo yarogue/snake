@@ -1,17 +1,9 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/snake.dir/main.cpp.o"
-  "CMakeFiles/snake.dir/main.cpp.o.d"
-  "CMakeFiles/snake.dir/src/Board.cpp.o"
-  "CMakeFiles/snake.dir/src/Board.cpp.o.d"
-  "CMakeFiles/snake.dir/src/GameEngine.cpp.o"
-  "CMakeFiles/snake.dir/src/GameEngine.cpp.o.d"
-  "CMakeFiles/snake.dir/src/InputHandler.cpp.o"
-  "CMakeFiles/snake.dir/src/InputHandler.cpp.o.d"
-  "CMakeFiles/snake.dir/src/Renderer.cpp.o"
-  "CMakeFiles/snake.dir/src/Renderer.cpp.o.d"
-  "CMakeFiles/snake.dir/src/Snake.cpp.o"
-  "CMakeFiles/snake.dir/src/Snake.cpp.o.d"
-  "snake"
+  "CMakeFiles/snake.dir/main.cpp.obj"
+  "CMakeFiles/snake.dir/main.cpp.obj.d"
+  "libsnake.dll.a"
+  "snake.exe"
+  "snake.exe.manifest"
   "snake.pdb"
 )
 

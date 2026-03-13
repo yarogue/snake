@@ -1,4 +1,4 @@
-# 🐍 Snake Game — Learning Roadmap
+# 🐍 Snake Game 
 
 > Follow these steps in order. Each step has pseudocode showing you what to write.  
 > All code goes in **`main.cpp`**. Build with: `g++ -std=c++17 -o snake main.cpp`
