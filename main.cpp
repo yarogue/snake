@@ -88,7 +88,7 @@ int main() {
   for (auto & level : levels) {
     LevelLoader::freeLevel(level);
   }
-  std::cout << "All levels loaded, validated, and freed successfully!\n\n";
+  std::cout << "All levels loaded, validated, and freed successfully.\n\n";
 
   // ---- TEST: HighScoreManager ----
   std::string highScoreFile = "data/highscores.txt";
@@ -101,8 +101,6 @@ int main() {
 
   std::cout << "\nAfter saving:\n";
   HighScoreManager::printHighScores(highScoreFile);
-
-  std::cout << "\nHighScoreManager test complete!\n";
 
   return 0;
 }

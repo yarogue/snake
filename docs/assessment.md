@@ -105,6 +105,34 @@ SWORD|Weapon the knight uses to defend himself
 
 `LevelLoader::loadLevel()` parses these files using `std::ifstream`, allocates the `Level` struct with `new`, and returns a pointer. The caller frees it with `LevelLoader::freeLevel()` (`delete`).
 
+## 🏆 Persistent High Scores
+
+High scores survive between game sessions — stored in `data/highscores.txt` as CSV:
+
+```
+1,0,0
+2,0,0
+3,0,0
+```
+
+Each line: `level,score,puzzlesSolved`. The `HighScoreManager` namespace handles all score persistence:
+
+| Function | What it does | Memory |
+|----------|-------------|--------|
+| `loadHighScores(file, count)` | Reads CSV into array, sets count | `new HighScoreEntry[count]` |
+| `saveHighScore(file, level, score, puzzles)` | Loads → updates if new high → writes back | Load + free internally |
+| `printHighScores(file)` | Loads → prints formatted table → frees | Load + free internally |
+| `freeHighScores(entries)` | Releases the array | `delete[] entries` |
+
+**How saving works:**
+1. Load all existing scores into a `new[]` array
+2. Find the matching level entry
+3. If the new score beats the old one → update it
+4. Write the entire array back to file with `std::ofstream`
+5. `delete[]` the array
+
+This demonstrates the `new[]`/`delete[]` array allocation pattern — different from the single-object `new`/`delete` used in LevelLoader.
+
 ## 🧠 Key Technical Concepts
 
 | Concept | Implementation |
