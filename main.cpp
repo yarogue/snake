@@ -1,16 +1,3 @@
-// ============================================================
-// SNAKE GAME — Requirement-Fulfilling Version
-// ============================================================
-// Build:  g++ -std=c++17 -o snake main.cpp
-// Run:    ./snake
-// ============================================================
-//
-// Follow the ROADMAP.md for step-by-step instructions!
-//
-// This file is your blank canvas. Each TODO corresponds
-// to a step in the roadmap.
-//
-
 #include <iostream>
 #include <vector>
 #include <chrono>
@@ -81,6 +68,13 @@ struct pos {
 //Outputting tiles for level and snake
 void drawTile(const int x, const int y, const char character) {
     std::cout << "\033[" << (y + 1) << ";" << (x + 1) << "H" << character;
+}
+
+void drawTileZoomed(const int x, const int y, const char character) {
+    drawTile(x * 2,y * 2,              character);  // top-left
+    drawTile(x * 2 + 1, y * 2,       character);  // top-right
+    drawTile(x * 2,     y * 2 + 1,   character);  // bottom-left
+    drawTile(x * 2 + 1, y * 2 + 1, character);  // bottom-right
 }
 
 //Drawing snake
@@ -183,7 +177,9 @@ char gameOver(int score)
 {
     clearScreen();
 
-    std::cout << "\033[" << "GAME_OVER" << std::endl;
+    std::cout << "\033[3;1H" << "========= GAME OVER =========";
+    std::cout << "\033[5;1H" << "Final score: " << score;
+    std::cout << "\033[7;1H" << "Press 'r' to restart or 'q' to quit";
 
     char key;
     do
@@ -214,8 +210,9 @@ void gameLoop(std::vector<pos>& snake,int snakeDirection ,
         {
             snake.push_back(snake.back());
             food = spawnFood(level, levelWidth, levelHeight, snake);
+            score ++;
         }
-        //Collision (only here, AFTER move)
+        //Collision
         if (auto [x, y] = snake[0]; isWall(x, y, level, levelWidth)) break;
         if (isCollidingWithSelf(snake)) break;
         //Draw
