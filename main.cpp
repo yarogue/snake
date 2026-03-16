@@ -134,10 +134,10 @@ bool isWall(const int x, const int y, const std::string& level, const int levelW
     return level[index] == '#';
 }
 
-bool isCollidingWithSelf(std::vector<pos> &snake)  {
-    pos head = snake[0];
+bool isCollidingWithSelf(const std::vector<pos> &snake)  {
+    auto [x, y] = snake[0];
     for (int i = 1; i < snake.size(); i++) {
-        if (snake[i].x == head.x && snake[i].y == head.y) {
+        if (snake[i].x == x && snake[i].y == y) {
             return true;
         }
     }
@@ -179,9 +179,25 @@ void sleepMs(const int ms) {
     std::this_thread::sleep_for(std::chrono::milliseconds(ms));
 }
 
+char gameOver(int score)
+{
+    clearScreen();
+
+    std::cout << "\033[" << "GAME_OVER" << std::endl;
+
+    char key;
+    do
+    {
+        key = getKeyPress();
+    }while (key != 'r' && key != 'q');
+
+    return key;
+}
+
 void gameLoop(std::vector<pos>& snake,int snakeDirection ,
     const std::string& level, const int levelWidth, const int levelHeight) {
     bool isRunning = true;
+    int score = 0;
 
     pos food = spawnFood(level, levelWidth, levelHeight, snake);
 
@@ -204,11 +220,14 @@ void gameLoop(std::vector<pos>& snake,int snakeDirection ,
         if (isCollidingWithSelf(snake)) break;
         //Draw
         clearScreen();
-        drawTile(food.x, food.y, '*');
         drawLevel(level, levelWidth, levelHeight);
+        drawTile(food.x, food.y, '*');
         drawSnake(snake);
+        std::cout << "\033[" << (levelHeight + 1) << ";1H" << "Score:" << score;
         sleepMs(200);
     }
+
+    char choice = gameOver(score);
 }
 
 // ============================================================
