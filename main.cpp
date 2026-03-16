@@ -62,7 +62,7 @@ char getKeyPress() {
 //Snake position enum
 enum Direction { UP, DOWN, LEFT, RIGHT };
 
-int handleInput(char key, int currentDirection) {
+int handleInput(const char key, const int currentDirection) {
     if (key == 'w' && currentDirection != DOWN)  return UP;
     if (key == 's' && currentDirection != UP)    return DOWN;
     if (key == 'a' && currentDirection != RIGHT) return LEFT;
@@ -94,7 +94,7 @@ void drawSnake(const std::vector<pos>& snake) {
 }
 
 //Moving snake
-void moveSnake(std::vector<pos>& snake, int snakeDirection) {
+void moveSnake(std::vector<pos>& snake, const int snakeDirection) {
 
     const pos head = snake[0];
     auto [x, y] = head;
@@ -125,6 +125,24 @@ void drawLevel(const std::string& level, const int levelWidth, const int levelHe
 }
 // ============================================================
 
+// ======================COLLISION=============================
+
+bool isWall(const int x, const int y, const std::string& level, const int levelWidth) {
+    const int index = y * levelWidth + x;
+    return level[index] == '#';
+}
+
+bool isCollidingWithSelf(std::vector<pos> &snake)  {
+    pos head = snake[0];
+    for (int i = 1; i < snake.size(); i++) {
+        if (snake[i].x == head.x && snake[i].y == head.y) {
+            return true;
+        }
+    }
+    return false;
+}
+// ============================================================
+
 // ======================GAME_LOOP=============================
 
 // Game loop helpers
@@ -134,7 +152,7 @@ void clearScreen() {
         std::cout << "\033[2J\033[H";
 }
 
-void sleepMs(int ms) {
+void sleepMs(const int ms) {
     std::this_thread::sleep_for(std::chrono::milliseconds(ms));
 }
 
@@ -143,35 +161,28 @@ void gameLoop(std::vector<pos>& snake,int snakeDirection ,
     bool isRunning = true;
 
     while (isRunning == true) {
-        //Reading input
+        //Input
         const char key = getKeyPress();
-
-        //Exit
-        if (key == 'q' || key == 'Q') {
-            isRunning = false;
-            break;
-        }
-
-        //Updating direction
+        if (key == 'q' || key == 'Q') break;
+        //Update direction
         snakeDirection = handleInput(key, snakeDirection);
-
-        //Moving snake
+        //Move
         moveSnake(snake, snakeDirection);
-
-        //TODO: check for collision
-
-        //Drawing everything
+        //Collision (only here, AFTER move)
+        if (auto [x, y] = snake[0]; isWall(x, y, level, levelWidth)) break;
+        if (isCollidingWithSelf(snake)) break;
+        //Draw
         clearScreen();
-        drawLevel(level ,levelWidth, levelHeight);
+        drawLevel(level, levelWidth, levelHeight);
         drawSnake(snake);
         sleepMs(200);
-
     }
 }
 
 // ============================================================
 
 // =========================MAIN===============================
+
 int main(const int argc, char* argv[]) {
         std::cout << "Arguments: " << argc << std::endl;
         for (int i = 0; i < argc; i++) {
@@ -195,10 +206,10 @@ int main(const int argc, char* argv[]) {
         snake.push_back(pos{1, 3});
 
         int snakeDirection = RIGHT;
-        enableRawMode();   // ← turn on raw input before game
+        enableRawMode();
         gameLoop(snake, snakeDirection, level, levelWidth, levelHeight);
 
-        disableRawMode();  // ← restore terminal after game
+        disableRawMode();
 
         // Move cursor below grid
         std::cout << "\033[" << (levelHeight + 1) << ";1H";
