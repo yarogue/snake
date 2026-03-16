@@ -15,6 +15,8 @@
 #include <vector>
 #include <chrono>
 #include <thread>
+#include <cstdlib>
+#include <ctime>
 
 
 #ifdef _WIN32
@@ -143,6 +145,27 @@ bool isCollidingWithSelf(std::vector<pos> &snake)  {
 }
 // ============================================================
 
+// ====================FOOD & GROWING==========================
+
+pos spawnFood(const std::string& level,const int levelWidth,const int levelHeight,std::vector<pos>& snake)
+{
+    pos food{};
+    bool isValid;
+    do{
+        food.x = rand() %  levelWidth;
+        food.y = rand() % levelHeight;
+        isValid = !isWall(food.x, food.y, level, levelWidth);
+            for (const auto& [x, y] : snake)
+            {
+                if (x == food.x && y == food.y) isValid = false;
+            }
+    }while (!isValid);
+
+    return food;
+}
+
+// ============================================================
+
 // ======================GAME_LOOP=============================
 
 // Game loop helpers
@@ -160,6 +183,8 @@ void gameLoop(std::vector<pos>& snake,int snakeDirection ,
     const std::string& level, const int levelWidth, const int levelHeight) {
     bool isRunning = true;
 
+    pos food = spawnFood(level, levelWidth, levelHeight, snake);
+
     while (isRunning == true) {
         //Input
         const char key = getKeyPress();
@@ -168,11 +193,18 @@ void gameLoop(std::vector<pos>& snake,int snakeDirection ,
         snakeDirection = handleInput(key, snakeDirection);
         //Move
         moveSnake(snake, snakeDirection);
+        //Draw and eat food
+        if (snake[0].x == food.x && snake[0].y == food.y)
+        {
+            snake.push_back(snake.back());
+            food = spawnFood(level, levelWidth, levelHeight, snake);
+        }
         //Collision (only here, AFTER move)
         if (auto [x, y] = snake[0]; isWall(x, y, level, levelWidth)) break;
         if (isCollidingWithSelf(snake)) break;
         //Draw
         clearScreen();
+        drawTile(food.x, food.y, '*');
         drawLevel(level, levelWidth, levelHeight);
         drawSnake(snake);
         sleepMs(200);
@@ -184,35 +216,42 @@ void gameLoop(std::vector<pos>& snake,int snakeDirection ,
 // =========================MAIN===============================
 
 int main(const int argc, char* argv[]) {
-        std::cout << "Arguments: " << argc << std::endl;
-        for (int i = 0; i < argc; i++) {
-            std::cout << "argv[" << i << "]: " << argv[i] << std::endl;
-        }
-        const std::string level = "########"
-                                  "#......#"
-                                  "#......#"
-                                  "#......#"
-                                  "#......#"
-                                  "#......#"
-                                  "#......#"
-                                  "########";
-        constexpr int levelWidth  = 8;
-        constexpr int levelHeight = 8;
 
-        std::vector<pos> snake;
+    srand(time(nullptr));
 
-        snake.push_back(pos{3, 3});
-        snake.push_back(pos{2, 3});
-        snake.push_back(pos{1, 3});
+    std::cout << "Arguments: " << argc << std::endl;
 
-        int snakeDirection = RIGHT;
-        enableRawMode();
-        gameLoop(snake, snakeDirection, level, levelWidth, levelHeight);
+    for (int i = 0; i < argc; i++) {
+        std::cout << "argv[" << i << "]: " << argv[i] << std::endl;
 
-        disableRawMode();
+    }
+    const std::string level   = "########"
+                                "#......#"
+                                "#......#"
+                                "#......#"
+                                "#......#"
+                                "#......#"
+                                "#......#"
+                                "########";
 
-        // Move cursor below grid
-        std::cout << "\033[" << (levelHeight + 1) << ";1H";
+    constexpr int levelWidth  = 8;
+    constexpr int levelHeight = 8;
 
-        return 0;
+    std::vector<pos> snake;
+
+    snake.push_back(pos{3, 3});
+    snake.push_back(pos{2, 3});
+    snake.push_back(pos{1, 3});
+
+    constexpr int snakeDirection = RIGHT;
+    enableRawMode();
+    gameLoop(snake, snakeDirection, level, levelWidth, levelHeight);
+
+    disableRawMode();
+
+    // Move cursor below grid
+    std::cout << "\033[" << (levelHeight + 1) << ";1H";
+
+    return 0;
+
 }

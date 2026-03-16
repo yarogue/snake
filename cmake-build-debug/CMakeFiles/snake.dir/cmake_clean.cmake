@@ -1,7 +1,9 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/snake.dir/main.cpp.o"
-  "CMakeFiles/snake.dir/main.cpp.o.d"
-  "snake"
+  "CMakeFiles/snake.dir/main.cpp.obj"
+  "CMakeFiles/snake.dir/main.cpp.obj.d"
+  "libsnake.dll.a"
+  "snake.exe"
+  "snake.exe.manifest"
   "snake.pdb"
 )
 
