@@ -2,13 +2,13 @@
 
 void Snake::move() {
   Position newHead = getHead() + DirectionUtils::toOffset(currentDirection);
-  body.push_front(newHead);
-  body.pop_back();
+  body.pushFront(newHead);
+  body.popBack();
 }
 
 void Snake::grow() {
   Position newHead = getHead() + DirectionUtils::toOffset(currentDirection);
-  body.push_front(newHead);
+  body.pushFront(newHead);
 }
 
 Position Snake::getHead() const { return body.front(); }
@@ -16,7 +16,7 @@ Position Snake::getHead() const { return body.front(); }
 bool Snake::isCollidingWithSelf() const {
   Position head = getHead();
   for (size_t i = 1; i < body.size(); ++i) {
-    if (body[i] == head) {
+    if (body.at(i) == head) {
       return true;
     }
   }
@@ -62,12 +62,11 @@ Snake Snake::create(Position startPosition, Direction startDirection,
   Position offset = DirectionUtils::toOffset(startDirection);
   Position oppositeOffset = Position{-offset.x, -offset.y};
 
-  for (int i = 0; i < initialLength; ++i) {
+  for (int i = initialLength - 1; i >= 0; --i) {
     Position bodyPos = startPosition;
     bodyPos.x += i * oppositeOffset.x;
     bodyPos.y += i * oppositeOffset.y;
-
-    snake.body.push_back(bodyPos);
+    snake.body.pushFront(bodyPos);
   }
   return snake;
 }

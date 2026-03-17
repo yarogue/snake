@@ -106,7 +106,7 @@ void Renderer::drawSnake(const Snake &snake) const {
   // Body
   attron(COLOR_PAIR(COL_SNAKE_BODY));
   for (size_t i = 1; i < snake.body.size(); ++i) {
-    mvprintw(offsetY + 1 + snake.body[i].y, offsetX + 1 + snake.body[i].x, "o");
+    mvprintw(offsetY + 1 + snake.body.at(i).y, offsetX + 1 + snake.body.at(i).x, "o");
   }
   attroff(COLOR_PAIR(COL_SNAKE_BODY));
 }

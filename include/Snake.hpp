@@ -1,7 +1,7 @@
 #pragma once
 #include "Direction.hpp"
 #include "Position.hpp"
-#include <deque>
+#include "LinkedList.hpp"
 
 // ============================================================
 // TODO 1c — Snake struct  (header)
@@ -54,8 +54,8 @@
 
 struct Snake {
 
-  // Member variables
-  std::deque<Position> body;
+  // Member variable
+  LinkedList body;
   Direction currentDirection;
 
   // Member functions declarations

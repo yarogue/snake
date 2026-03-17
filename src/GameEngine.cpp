@@ -26,8 +26,10 @@ GameEngine GameEngine::create(const Level &level) {
   timeout(level.tickIntervalMs);
 
   // Safe zone around the snake
-  std::vector<Position> forbidden(engine.snake.body.begin(),
-                                  engine.snake.body.end());
+  std::vector<Position> forbidden;
+  for (int i = 0; i < engine.snake.body.size(); ++i) {
+    forbidden.push_back(engine.snake.body.at(i));
+  }
   Position center{level.boardWidth / 2, level.boardHeight / 2};
   for (int dx = -5; dx <= 5; ++dx) {
     for (int dy = -3; dy <= 3; ++dy) {
@@ -91,8 +93,8 @@ void GameEngine::update() {
 
   snake.move();
   Position wrappedHead = board.wrap(snake.getHead());
-  snake.body.pop_front();
-  snake.body.push_front(wrappedHead);
+  snake.body.popBack();
+  snake.body.pushFront(wrappedHead);
 
   if (snake.isCollidingWithSelf()) {
     handleDeath();
@@ -124,24 +126,18 @@ void GameEngine::spawnLetters() {
       Position pos{rand() % board.width, rand() % board.height};
 
       // Check not on snake, obstacle, or existing letter
-      bool valid = true;
-      for (const auto &seg : snake.body) {
-        if (seg == pos) {
-          valid = false;
-          break;
-        }
-      }
-      if (!valid)
+      if (snake.body.contains(pos))
         continue;
       if (board.isObstacle(pos))
         continue;
+      bool letterCollision = false;
       for (const auto &lp : letters) {
         if (lp.pos == pos) {
-          valid = false;
+          letterCollision = true;
           break;
         }
       }
-      if (!valid)
+      if (letterCollision)
         continue;
 
       letters.push_back(LetterPickup{pos, c});
@@ -163,24 +159,18 @@ void GameEngine::spawnLetters() {
       attempts++;
       Position pos{rand() % board.width, rand() % board.height};
 
-      bool valid = true;
-      for (const auto &seg : snake.body) {
-        if (seg == pos) {
-          valid = false;
-          break;
-        }
-      }
-      if (!valid)
+      if (snake.body.contains(pos))
         continue;
       if (board.isObstacle(pos))
         continue;
+      bool letterCollision = false;
       for (const auto &lp : letters) {
         if (lp.pos == pos) {
-          valid = false;
+          letterCollision = true;
           break;
         }
       }
-      if (!valid)
+      if (letterCollision)
         continue;
 
       letters.push_back(LetterPickup{pos, c});
@@ -238,24 +228,18 @@ void GameEngine::handleLetterPickup() {
         while (attempts < 100) {
           attempts++;
           Position pos{rand() % board.width, rand() % board.height};
-          bool valid = true;
-          for (const auto &seg : snake.body) {
-            if (seg == pos) {
-              valid = false;
-              break;
-            }
-          }
-          if (!valid)
+          if (snake.body.contains(pos))
             continue;
           if (board.isObstacle(pos))
             continue;
+          bool letterCollision = false;
           for (const auto &lp : letters) {
             if (lp.pos == pos) {
-              valid = false;
+              letterCollision = true;
               break;
             }
           }
-          if (!valid)
+          if (letterCollision)
             continue;
 
           letters.push_back(LetterPickup{pos, newChar});
@@ -299,24 +283,18 @@ void GameEngine::nextPuzzle() {
         while (attempts < 100) {
           attempts++;
           Position pos{rand() % board.width, rand() % board.height};
-          bool valid = true;
-          for (const auto &seg : snake.body) {
-            if (seg == pos) {
-              valid = false;
-              break;
-            }
-          }
-          if (!valid)
+          if (snake.body.contains(pos))
             continue;
           if (board.isObstacle(pos))
             continue;
+          bool letterCollision = false;
           for (const auto &lp : letters) {
             if (lp.pos == pos) {
-              valid = false;
+              letterCollision = true;
               break;
             }
           }
-          if (!valid)
+          if (letterCollision)
             continue;
 
           letters.push_back(LetterPickup{pos, c});

@@ -1,121 +1,68 @@
 #include "LinkedList.hpp"
 
-// ============================================================
-// TODO Phase 6 (Extra) — LinkedList (implementation)
-// ============================================================
-// Implement all methods declared in LinkedList.hpp.
-// Read the header file TODOs for detailed pseudocode.
-//
-// MEMORY RULES:
-//   - Every 'new Node' MUST have a matching 'delete'
-//   - pushFront() creates nodes → popBack() and ~LinkedList() delete them
-//   - Never access a deleted node (dangling pointer!)
-// ============================================================
-
-// ────────────────────────────────────────────
-// TODO 6a — Constructor
-// ────────────────────────────────────────────
-// PSEUDOCODE:
-//   head = nullptr;
-//   length = 0;
-// ────────────────────────────────────────────
+//Constructor
 LinkedList::LinkedList() {
-  // TODO: implement
+  head = nullptr;
+  length = 0;
 }
 
-// ────────────────────────────────────────────
-// TODO 6b — Destructor
-// ────────────────────────────────────────────
-// PSEUDOCODE:
-//   Node* current = head;
-//   while (current != nullptr):
-//     Node* next = current->next;
-//     delete current;
-//     current = next;
-//   head = nullptr;
-//   length = 0;
-// ────────────────────────────────────────────
+//Destructor
 LinkedList::~LinkedList() {
-  // TODO: implement
+  const Node* current = head;
+  while (current != nullptr) {
+    const Node* next = current->next;
+    delete current;
+    current = next;
+  }
+  head = nullptr;
+  length = 0;
 }
 
-// ────────────────────────────────────────────
-// TODO 6c — pushFront
-// ────────────────────────────────────────────
-// PSEUDOCODE:
-//   Node* newNode = new Node{pos, head};
-//   head = newNode;
-//   length++;
-// ────────────────────────────────────────────
+
 void LinkedList::pushFront(Position pos) {
-  // TODO: implement
+  auto newNode = new Node{pos, head};
+  head = newNode;
+  length++;
 }
 
-// ────────────────────────────────────────────
-// TODO 6d — popBack
-// ────────────────────────────────────────────
-// PSEUDOCODE:
-//   if (head == nullptr) return;
-//   if (head->next == nullptr):
-//     delete head;
-//     head = nullptr;
-//     length = 0;
-//     return;
-//   Node* current = head;
-//   while (current->next->next != nullptr):
-//     current = current->next;
-//   delete current->next;
-//   current->next = nullptr;
-//   length--;
-// ────────────────────────────────────────────
 void LinkedList::popBack() {
-  // TODO: implement
+  if(head == nullptr) return;
+  if(head -> next == nullptr) {
+    delete head;
+    head = nullptr;
+    length = 0;
+    return;
+  }
+  Node* current = head;
+  while (current->next->next !=nullptr) {
+    current= current->next;
+  }
+  delete current->next;
+  current->next = nullptr;
+  length--;
 }
 
-// ────────────────────────────────────────────
-// TODO 6e — front
-// ────────────────────────────────────────────
-// PSEUDOCODE:
-//   return head->data;
-// ────────────────────────────────────────────
 Position LinkedList::front() const {
-  // TODO: implement
-  return Position{0, 0};
+  return head->data;
 }
 
-// ────────────────────────────────────────────
-// TODO 6f — size
-// ────────────────────────────────────────────
 int LinkedList::size() const {
-  // TODO: implement
-  return 0;
+  return length;
 }
 
-// ────────────────────────────────────────────
-// TODO 6g — at
-// ────────────────────────────────────────────
-// PSEUDOCODE:
-//   Node* current = head;
-//   for (int i = 0; i < index; i++):
-//     current = current->next;
-//   return current->data;
-// ────────────────────────────────────────────
 Position LinkedList::at(int index) const {
-  // TODO: implement
-  return Position{0, 0};
+  Node* current = head;
+  for (int i = 0; i < index; i++) {
+    current= current->next;
+  }
+  return current->data;
 }
 
-// ────────────────────────────────────────────
-// TODO 6h — contains
-// ────────────────────────────────────────────
-// PSEUDOCODE:
-//   Node* current = head;
-//   while (current != nullptr):
-//     if (current->data == pos) return true;
-//     current = current->next;
-//   return false;
-// ────────────────────────────────────────────
 bool LinkedList::contains(Position pos) const {
-  // TODO: implement
+  Node* current = head;
+  while (current != nullptr) {
+    if (current->data == pos) return true;
+    current= current->next;
+  }
   return false;
 }

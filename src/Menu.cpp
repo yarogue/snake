@@ -5,20 +5,19 @@
 #include <sstream>
 #include <string>
 
-
 namespace Menu {
 
-void showMenu() {
-    std::cout << "|======================================|\n";
-    std::cout << "|        SNAKE+WORD PUZZLE GAME        |\n";
-    std::cout << "|======================================|\n";
-    std::cout << "| Commands:                            |\n";
-    std::cout << "| [1-3]       - Play a level 1 ,2 or 3 |\n";
-    std::cout << "| [h]         - Show high scores       |\n";
-    std::cout << "| [s]         - Change game settings   |\n";
-    std::cout << "| [q]         - Exit the game          |\n";
-    std::cout << "|======================================|\n";
-}
+    void showMenu() {
+        std::cout << "╔══════════════════════════════════════╗\n";
+        std::cout << "║        SNAKE+WORD PUZZLE GAME        ║\n";
+        std::cout << "╠══════════════════════════════════════╣\n";
+        std::cout << "║ Commands:                            ║\n";
+        std::cout << "║ [1-3]       - Play a level 1 ,2 or 3 ║\n";
+        std::cout << "║ [h]         - Show high scores       ║\n";
+        std::cout << "║ [s]         - Change game settings   ║\n";
+        std::cout << "║ [q]         - Exit the game          ║\n";
+        std::cout << "╚══════════════════════════════════════╝\n";
+    }
 
 void menuLoop(Level *levels[], int levelCount,
               const std::string &highScoreFile) {
@@ -35,7 +34,7 @@ void menuLoop(Level *levels[], int levelCount,
             HighScoreManager::printHighScores(highScoreFile);
         }else if (input == "s" || input == "S") {
             std::cout << "settings" << std::endl;
-            // TODO: handleSettings()
+            handleSettings();
         }else if (input == "1" || input == "2" || input == "3") {
             const int levelNum = std::stoi(input);
             std::cout << "Starting level " << levelNum << "...\n";
