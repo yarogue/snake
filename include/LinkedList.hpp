@@ -13,6 +13,8 @@ public:
 
   LinkedList();
   ~LinkedList();
+  LinkedList(const LinkedList &other);            // deep copy
+  LinkedList &operator=(const LinkedList &other); // deep copy assignment
 
   void pushFront(Position pos);
   void popBack();
