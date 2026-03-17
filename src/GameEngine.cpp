@@ -93,7 +93,7 @@ void GameEngine::update() {
 
   snake.move();
   Position wrappedHead = board.wrap(snake.getHead());
-  snake.body.popBack();
+  snake.body.popFront();
   snake.body.pushFront(wrappedHead);
 
   if (snake.isCollidingWithSelf()) {

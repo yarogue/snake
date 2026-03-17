@@ -17,6 +17,7 @@ public:
   LinkedList &operator=(const LinkedList &other); // deep copy assignment
 
   void pushFront(Position pos);
+  void popFront();
   void popBack();
   Position front() const;
   int size() const;

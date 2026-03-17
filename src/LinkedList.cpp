@@ -77,6 +77,14 @@ void LinkedList::pushFront(Position pos) {
   length++;
 }
 
+void LinkedList::popFront() {
+  if (head == nullptr) return;
+  Node* old = head;
+  head = head->next;
+  delete old;
+  length--;
+}
+
 void LinkedList::popBack() {
   if(head == nullptr) return;
   if(head -> next == nullptr) {
