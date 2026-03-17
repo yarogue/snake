@@ -5,97 +5,90 @@
 #include <sstream>
 #include <string>
 
-// ============================================================
-// TODO Phase 3 — Menu (implementation)
-// ============================================================
-// Implement the functions declared in Menu.hpp.
-// Read the header file TODOs for detailed pseudocode.
-// ============================================================
 
 namespace Menu {
 
-// ────────────────────────────────────────────
-// TODO 3a — showMenu
-// ────────────────────────────────────────────
-// PSEUDOCODE:
-//   1. Print the banner and commands using std::cout
-//   2. Print "> " prompt (no newline) so user can type
-// ────────────────────────────────────────────
 void showMenu() {
-  // TODO: implement
+    std::cout << "|======================================|\n";
+    std::cout << "|        SNAKE+WORD PUZZLE GAME        |\n";
+    std::cout << "|======================================|\n";
+    std::cout << "| Commands:                            |\n";
+    std::cout << "| [1-3]       - Play a level 1 ,2 or 3 |\n";
+    std::cout << "| [h]         - Show high scores       |\n";
+    std::cout << "| [s]         - Change game settings   |\n";
+    std::cout << "| [q]         - Exit the game          |\n";
+    std::cout << "|======================================|\n";
 }
 
-// ────────────────────────────────────────────
-// TODO 3b — menuLoop
-// ────────────────────────────────────────────
-// PSEUDOCODE:
-//   1. while (true):
-//      a. Call showMenu()
-//      b. Read full line: std::getline(std::cin, input)
-//      c. Extract first word as command
-//         HINT: std::stringstream ss(input); ss >> command;
-//      d. if command == "play":
-//           - Try to extract level number: ss >> levelNum
-//           - If no number given, default to 1
-//           - Validate levelNum is 1..levelCount
-//           - Call handlePlay(levels, levelCount, levelNum-1, highScoreFile)
-//         else if command == "highscores":
-//           - Call HighScoreManager::printHighScores(highScoreFile)
-//         else if command == "settings":
-//           - Call handleSettings()
-//         else if command == "quit":
-//           - Print "Goodbye!"
-//           - break
-//         else:
-//           - Print "Unknown command. Type 'quit' to exit."
-// ────────────────────────────────────────────
 void menuLoop(Level *levels[], int levelCount,
               const std::string &highScoreFile) {
-  // TODO: implement
+    std::string input;
+    bool isRunning = true;
+    while (isRunning) {
+        showMenu();
+        std::cout << "> ";
+        std::getline(std::cin, input);
+        if (input == "q" || input == "Q") {
+            isRunning = false;
+            break;
+        }else if (input == "h" || input == "H") {
+            HighScoreManager::printHighScores(highScoreFile);
+        }else if (input == "s" || input == "S") {
+            std::cout << "settings" << std::endl;
+            // TODO: handleSettings()
+        }else if (input == "1" || input == "2" || input == "3") {
+            const int levelNum = std::stoi(input);
+            std::cout << "Starting level " << levelNum << "...\n";
+            handlePlay(levels, levelCount, levelNum - 1, highScoreFile);
+        }else {
+            std::cout << "Invalid input" << std::endl;
+        }
+    }
 }
 
-// ────────────────────────────────────────────
-// TODO 3c — handlePlay
-// ────────────────────────────────────────────
-// PSEUDOCODE:
-//   1. int carryPuzzles = 0;
-//   2. for (int i = startLevel; i < levelCount;):
-//      a. GameEngine* engine = new GameEngine;
-//         *engine = GameEngine::create(levels[i]);
-//         // OR refactor create() to return GameEngine*
-//      b. engine->puzzlesSolved = carryPuzzles;
-//         engine->puzzlesStartCount = carryPuzzles;
-//      c. engine->run();
-//      d. carryPuzzles = engine->puzzlesSolved;
-//      e. bool completed = engine->checkLevelComplete();
-//      f. bool restart = engine->wantsRestart();
-//      g. int score = engine->score;
-//      h. delete engine;  // free the memory!
-//      i. if (!completed):
-//           if (restart) → continue (same level)
-//           else → break (back to menu)
-//      j. Save high score: HighScoreManager::saveHighScore(...)
-//      k. Show level complete / game won screens
-//      l. ++i;
-// ────────────────────────────────────────────
-void handlePlay(Level *levels[], int levelCount, int startLevel,
-                const std::string &highScoreFile) {
-  // TODO: implement
+
+    void handlePlay(Level *levels[], const int levelCount, const int startLevel,
+                            const std::string &highScoreFile) {
+    int carryPuzzles = 0;
+    for (int i = startLevel; i < levelCount;) {
+        auto engine = new GameEngine;
+        *engine = GameEngine::create(*levels[i]);
+        engine->puzzlesSolved = carryPuzzles;
+        engine->puzzlesStartCount = carryPuzzles;
+        engine->run();
+        carryPuzzles = engine->puzzlesSolved;
+        bool isCompleted = engine->checkLevelComplete();
+        bool restart = engine->wantsRestart();
+        int score = engine->score;
+        delete engine;
+        // Save score
+        HighScoreManager::saveHighScore(highScoreFile,
+            levels[i]->levelNumber, score, carryPuzzles);
+        if (!isCompleted) {
+            if (restart) {
+                continue;    // replay same level
+            } else {
+                break;       // back to menu
+            }
+        }
+        i++;  // next level
+    }
 }
 
-// ────────────────────────────────────────────
-// TODO 3d — handleSettings
-// ────────────────────────────────────────────
-// PSEUDOCODE:
-//   1. Print current settings
-//   2. Ask user what to change (e.g., "Color palette (0-3): ")
-//   3. Read input and store
-//   4. Print "Settings updated."
-//   NOTE: Keep this simple. Settings can be stored as static
-//         variables or passed through. Don't overcomplicate.
-// ────────────────────────────────────────────
-void handleSettings() {
-  // TODO: implement
+    void handleSettings() {
+    std::cout << "\n=== SETTINGS ===\n";
+    std::cout << "Color palette (0-3): ";
+
+    std::string input;
+    std::getline(std::cin, input);
+
+    int palette = std::stoi(input);
+    if (palette >= 0 && palette <= 3) {
+        // Store as a static variable that GameEngine can access
+        std::cout << "Palette set to " << palette << "\n";
+    } else {
+        std::cout << "Invalid palette. Use 0-3.\n";
+    }
 }
 
 } // namespace Menu

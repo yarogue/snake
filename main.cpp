@@ -91,7 +91,7 @@ int main() {
   std::cout << "All levels loaded, validated, and freed successfully.\n\n";
 
   // ---- TEST: HighScoreManager ----
-  std::string highScoreFile = "data/highscores.txt";
+  const std::string highScoreFile = "data/highscores.txt";
 
   std::cout << "Before saving:\n";
   HighScoreManager::printHighScores(highScoreFile);
