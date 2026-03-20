@@ -4,22 +4,22 @@
 
 ```
 ╔══════════════════════════════════════════════════════════════════╗
-║                          main.cpp                               ║
-║  - Seeds random                                                 ║
-║  - Loads & validates levels via LevelLoader                     ║
-║  - Launches Menu::menuLoop()                                    ║
-║  - Frees all levels on exit                                     ║
+║                          main.cpp                                ║
+║  - Seeds random                                                  ║
+║  - Loads & validates levels via LevelLoader                      ║
+║  - Launches Menu::menuLoop()                                     ║
+║  - Frees all levels on exit                                      ║
 ╚══════════════╦═══════════════╦═══════════════╦═══════════════════╝
                │               │               │
                ▼               ▼               ▼
      ┌─────────────┐  ┌──────────────┐  ┌──────────────────┐
-     │ LevelLoader  │  │    Menu      │  │ HighScoreManager │
+     │ LevelLoader │  │    Menu      │  │ HighScoreManager │
      │─────────────│  │──────────────│  │──────────────────│
      │ loadLevel() │  │ showMenu()   │  │ loadHighScores() │
      │ validate()  │  │ menuLoop()   │  │ saveHighScore()  │
      │ freeLevel() │  │ handlePlay() │  │ printHighScores()│
-     │             │  │ handleSettings│  │ freeHighScores() │
-     └─────────────┘  └──────┬───────┘  └──────────────────┘
+     │             │  │handleSettings│  │ freeHighScores() │
+     └─────────────┘  └───────┬──────┘  └──────────────────┘
                               │                    ▲
       data/level1-3.txt ──────┤                    │
                               ▼                    │
@@ -49,7 +49,7 @@
               │                
               ▼                
      ┌──────────────┐  ┌──────────────┐  ┌──────────────┐
-     │  LinkedList   │  │ InputHandler │  │  WordPuzzle  │
+     │  LinkedList  │  │ InputHandler │  │  WordPuzzle  │
      │──────────────│  │──────────────│  │──────────────│
      │ pushFront()  │  │ pollInput()  │  │ create()     │
      │ popFront()   │  │ isQuitKey()  │  │ tryLetter()  │
