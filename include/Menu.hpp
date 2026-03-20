@@ -8,7 +8,7 @@ void showMenu();
 void menuLoop(Level *levels[], int levelCount,
               const std::string &highScoreFile);
 void handlePlay(Level *levels[], int levelCount, int startLevel,
-                const std::string &highScoreFile);
-void handleSettings();
+                const std::string &highScoreFile, int palette);
+int handleSettings(int currentPalette);
 
 } // namespace Menu

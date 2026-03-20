@@ -2,7 +2,7 @@
 #include <cstdlib>
 #include <curses.h>
 
-GameEngine GameEngine::create(const Level &level) {
+GameEngine GameEngine::create(const Level &level, int palette) {
   GameEngine engine;
 
   engine.currentLevel = level;
@@ -21,6 +21,7 @@ GameEngine GameEngine::create(const Level &level) {
   engine.puzzlesStartCount = 0;
 
   engine.renderer.init();
+  engine.renderer.applyPalette(palette);
   engine.renderer.offsetX = 1;
   engine.renderer.offsetY = 2;
   timeout(level.tickIntervalMs);
@@ -74,12 +75,6 @@ void GameEngine::update() {
 
   if (key == 'p' || key == 'P') {
     paused = !paused;
-    return;
-  }
-
-  // Cycle color palette
-  if (key == 'c' || key == 'C') {
-    renderer.nextPalette();
     return;
   }
 

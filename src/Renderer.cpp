@@ -130,7 +130,7 @@ void Renderer::drawHUD(int score, int level, const Board &board) const {
   attron(COLOR_PAIR(COL_HUD));
   mvprintw(0, 0, "Score: %d   Level: %d", score, level);
   mvprintw(offsetY + board.height + 5, offsetX,
-           "Press Q quit | P pause | C change colors");
+           "Press Q quit | P pause");
   attroff(COLOR_PAIR(COL_HUD));
   refresh();
 }

@@ -40,5 +40,5 @@ struct GameEngine {
   bool checkWallOrObstacleCollision() const;
   bool checkSelfCollision() const;
   bool wantsRestart() const;
-  static GameEngine create(const Level &level);
+  static GameEngine create(const Level &level, int palette = 0);
 };
