@@ -9,6 +9,14 @@
 #include "WordPuzzle.hpp"
 #include <vector>
 
+enum class GameState {
+  PLAYING,
+  PAUSED,
+  GAME_OVER,
+  LEVEL_COMPLETE,
+  GAME_WON
+};
+
 struct GameEngine {
 
   // Members:
@@ -19,8 +27,12 @@ struct GameEngine {
   InputHandler inputHandler;
   int score;
   bool running;
-  bool paused;
+  GameState state;
   char lastDeathChoice; // 'r' restart, 'q' quit
+
+  // Timing
+  float tickTimer;
+  float tickInterval; // seconds per game tick
 
   // Puzzle state
   WordPuzzle currentPuzzle;
@@ -30,13 +42,13 @@ struct GameEngine {
   int puzzlesStartCount; // baseline when level starts
 
   // Methods:
-  void run();
-  void update();
+  void updateFrame();
+  void drawFrame();
+  void gameTick(); // one logic step
   void spawnLetters();
   void handleLetterPickup();
   void nextPuzzle();
   bool checkLevelComplete() const;
-  void handleDeath();
   bool checkWallOrObstacleCollision() const;
   bool checkSelfCollision() const;
   bool wantsRestart() const;

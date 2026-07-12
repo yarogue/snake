@@ -1,6 +1,6 @@
 #include "GameEngine.hpp"
+#include "raylib.h"
 #include <cstdlib>
-#include <curses.h>
 
 GameEngine GameEngine::create(const Level &level, int palette) {
   GameEngine engine;
@@ -14,17 +14,17 @@ GameEngine GameEngine::create(const Level &level, int palette) {
 
   engine.score = 0;
   engine.running = true;
-  engine.paused = false;
+  engine.state = GameState::PLAYING;
   engine.lastDeathChoice = 'q';
   engine.puzzlesSolved = 0;
   engine.puzzleIndex = 0;
   engine.puzzlesStartCount = 0;
 
-  engine.renderer.init();
+  engine.tickTimer = 0.0f;
+  engine.tickInterval = level.tickIntervalMs / 1000.0f;
+
+  engine.renderer.init(level.boardWidth, level.boardHeight);
   engine.renderer.applyPalette(palette);
-  engine.renderer.offsetX = 1;
-  engine.renderer.offsetY = 2;
-  timeout(level.tickIntervalMs);
 
   // Safe zone around the snake
   std::vector<Position> forbidden;
@@ -46,68 +46,129 @@ GameEngine GameEngine::create(const Level &level, int palette) {
   return engine;
 }
 
-void GameEngine::run() {
-  while (running) {
-    update();
+// ── Per-frame update ─────────────────────────────────────────────
+void GameEngine::updateFrame() {
+  renderer.update();
 
-    renderer.drawBoard(board);
-    renderer.drawSnake(snake);
-    renderer.drawHUD(score, currentLevel.levelNumber, board);
-
-    if (paused) {
-      renderer.drawPaused(board);
-    } else {
-      renderer.drawLetters(letters, currentPuzzle);
-      renderer.drawPuzzleHUD(currentPuzzle, puzzlesSolved - puzzlesStartCount,
-                             currentLevel.puzzlesToSolve, board);
+  switch (state) {
+  case GameState::PLAYING: {
+    // Input
+    if (inputHandler.isQuitKey()) {
+      lastDeathChoice = 'q';
+      running = false;
+      return;
     }
+    if (inputHandler.isPauseKey()) {
+      state = GameState::PAUSED;
+      return;
+    }
+
+    auto dir = inputHandler.pollInput();
+    if (dir.has_value()) {
+      snake.setDirection(dir.value());
+    }
+
+    // Accumulate time and tick
+    tickTimer += GetFrameTime();
+    while (tickTimer >= tickInterval) {
+      tickTimer -= tickInterval;
+      gameTick();
+      if (state != GameState::PLAYING)
+        break;
+    }
+    break;
   }
-  renderer.shutdown();
+
+  case GameState::PAUSED:
+    if (inputHandler.isPauseKey()) {
+      state = GameState::PLAYING;
+    }
+    if (inputHandler.isQuitKey()) {
+      lastDeathChoice = 'q';
+      running = false;
+    }
+    break;
+
+  case GameState::GAME_OVER:
+    if (IsKeyPressed(KEY_R)) {
+      lastDeathChoice = 'r';
+      running = false;
+    }
+    if (IsKeyPressed(KEY_Q)) {
+      lastDeathChoice = 'q';
+      running = false;
+    }
+    break;
+
+  case GameState::LEVEL_COMPLETE:
+    if (GetKeyPressed() != 0) {
+      running = false;
+    }
+    break;
+
+  case GameState::GAME_WON:
+    if (GetKeyPressed() != 0) {
+      running = false;
+    }
+    break;
+  }
 }
 
-void GameEngine::update() {
-  int key = getch();
-
-  if (inputHandler.isQuitKey(key)) {
-    running = false;
-    return;
-  }
-
-  if (key == 'p' || key == 'P') {
-    paused = !paused;
-    return;
-  }
-
-  if (paused)
-    return;
-
-  auto dir = inputHandler.pollInput(key);
-  if (dir.has_value()) {
-    snake.setDirection(dir.value());
-  }
-
+// ── One game logic tick ──────────────────────────────────────────
+void GameEngine::gameTick() {
   snake.move();
   Position wrappedHead = board.wrap(snake.getHead());
   snake.body.popFront();
   snake.body.pushFront(wrappedHead);
 
   if (snake.isCollidingWithSelf()) {
-    handleDeath();
+    state = GameState::GAME_OVER;
     return;
   }
 
   if (checkWallOrObstacleCollision()) {
-    handleDeath();
+    state = GameState::GAME_OVER;
     return;
   }
 
   handleLetterPickup();
 
   if (checkLevelComplete()) {
-    running = false; // Signal level complete (main.cpp handles progression)
+    state = GameState::LEVEL_COMPLETE;
   }
 }
 
+// ── Per-frame draw ───────────────────────────────────────────────
+void GameEngine::drawFrame() {
+  ClearBackground(renderer.palette.background);
+
+  renderer.drawBoard(board);
+  renderer.drawSnake(snake);
+  renderer.drawLetters(letters, currentPuzzle);
+  renderer.drawHUD(score, currentLevel.levelNumber, board);
+  renderer.drawPuzzleHUD(currentPuzzle, puzzlesSolved - puzzlesStartCount,
+                         currentLevel.puzzlesToSolve, board);
+
+  // State overlays
+  switch (state) {
+  case GameState::PAUSED:
+    renderer.drawPaused(board);
+    break;
+  case GameState::GAME_OVER:
+    renderer.drawGameOver(board, score, puzzlesSolved);
+    break;
+  case GameState::LEVEL_COMPLETE:
+    renderer.drawLevelComplete(board, currentLevel.levelNumber);
+    break;
+  case GameState::GAME_WON:
+    renderer.drawGameWon(board);
+    break;
+  default:
+    break;
+  }
+}
+
+// ── Spawn letters ────────────────────────────────────────────────
 void GameEngine::spawnLetters() {
   letters.clear();
   auto missing = currentPuzzle.getMissingLetters();
@@ -174,6 +235,7 @@ void GameEngine::spawnLetters() {
   }
 }
 
+// ── Handle letter pickup ─────────────────────────────────────────
 void GameEngine::handleLetterPickup() {
   Position head = snake.getHead();
 
@@ -247,6 +309,7 @@ void GameEngine::handleLetterPickup() {
   }
 }
 
+// ── Next puzzle ──────────────────────────────────────────────────
 void GameEngine::nextPuzzle() {
   if (puzzleIndex < (int)currentLevel.puzzles.size()) {
     auto &p = currentLevel.puzzles[puzzleIndex];
@@ -311,13 +374,6 @@ bool GameEngine::checkWallOrObstacleCollision() const {
 
 bool GameEngine::checkSelfCollision() const {
   return snake.isCollidingWithSelf();
-}
-
-void GameEngine::handleDeath() {
-  renderer.drawBoard(board);
-  renderer.drawSnake(snake);
-  lastDeathChoice = renderer.drawGameOver(board, score, puzzlesSolved);
-  running = false;
 }
 
 bool GameEngine::wantsRestart() const { return lastDeathChoice == 'r'; }

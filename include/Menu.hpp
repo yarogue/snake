@@ -1,14 +1,30 @@
 #pragma once
 #include "Level.hpp"
+#include "Renderer.hpp"
 #include <string>
 
-namespace Menu {
+enum class MenuScreen {
+  MAIN,
+  HIGH_SCORES,
+  SETTINGS,
+};
 
-void showMenu();
-void menuLoop(Level *levels[], int levelCount,
-              const std::string &highScoreFile);
-void handlePlay(Level *levels[], int levelCount, int startLevel,
-                const std::string &highScoreFile, int palette);
-int handleSettings(int currentPalette);
+struct MenuSystem {
+  MenuScreen screen;
+  int selectedOption;
+  int currentPalette;
+  int selectedLevel; // -1 = none, 0-2 = level to start
+  bool wantsQuit;
+  Renderer renderer;
+  float time;
 
-} // namespace Menu
+  // High score display cache
+  std::string highScoreText;
+
+  void init(int palette);
+  void update(const std::string &highScoreFile);
+  void draw(Level *levels[], int levelCount);
+  void drawMainMenu();
+  void drawHighScores();
+  void drawSettings();
+};

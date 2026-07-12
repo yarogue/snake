@@ -5,26 +5,31 @@
 #include "Snake.hpp"
 #include "WordPuzzle.hpp"
 #include <vector>
+#include "raylib.h"
 
-// Color pair IDs
-enum ColorID {
-  COL_BORDER = 1,
-  COL_OBSTACLE,
-  COL_SNAKE_HEAD,
-  COL_SNAKE_BODY,
-  COL_LETTER_CORRECT,
-  COL_LETTER_WRONG,
-  COL_HUD,
-  COL_PAUSE
+struct Palette {
+  Color background;
+  Color gameBg;
+  Color grid;
+  Color border;
+  Color obstacle;
+  Color snakeHead;
+  Color snakeBody;
+  Color letterCorrect;
+  Color letterWrong;
+  Color hud;
+  Color accent;
 };
 
 struct Renderer {
   int offsetX;
   int offsetY;
+  int cellSize;
   int currentPalette;
+  Palette palette;
+  float time; // for animations
 
-  void init();
-  void shutdown();
+  void init(int boardWidth, int boardHeight);
   void applyPalette(int paletteIndex);
   void nextPalette();
   void drawBoard(const Board &board) const;
@@ -35,7 +40,13 @@ struct Renderer {
   void drawPuzzleHUD(const WordPuzzle &puzzle, int solved, int total,
                      const Board &board) const;
   void drawPaused(const Board &board) const;
-  char drawGameOver(const Board &board, int score, int puzzlesSolved) const;
+  void drawGameOver(const Board &board, int score, int puzzlesSolved) const;
   void drawLevelComplete(const Board &board, int levelNum) const;
   void drawGameWon(const Board &board) const;
+  void drawOverlay(const char *title, const char *line1, const char *line2,
+                   const Board &board) const;
+  void update(); // call each frame for animation timers
+
+  static constexpr int SCREEN_WIDTH = 1060;
+  static constexpr int SCREEN_HEIGHT = 640;
 };

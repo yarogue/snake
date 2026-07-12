@@ -3,6 +3,7 @@
 #include <optional>
 
 struct InputHandler {
-    std::optional<Direction> pollInput(int key) const;
-    bool isQuitKey(int key) const;
+    std::optional<Direction> pollInput() const;
+    bool isQuitKey() const;
+    bool isPauseKey() const;
 };

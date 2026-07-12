@@ -1,18 +1,18 @@
 #include "InputHandler.hpp"
-#include <curses.h>
+#include "raylib.h"
 
-std::optional<Direction> InputHandler::pollInput(int key) const {
-    if (key == ERR) return std::nullopt;
-
-    switch (key) {
-        case KEY_UP:    case 'w': case 'W': return Direction::UP;
-        case KEY_DOWN:  case 's': case 'S': return Direction::DOWN;
-        case KEY_LEFT:  case 'a': case 'A': return Direction::LEFT;
-        case KEY_RIGHT: case 'd': case 'D': return Direction::RIGHT;
-        default: return std::nullopt;
-    }
+std::optional<Direction> InputHandler::pollInput() const {
+    if (IsKeyPressed(KEY_UP)    || IsKeyPressed(KEY_W)) return Direction::UP;
+    if (IsKeyPressed(KEY_DOWN)  || IsKeyPressed(KEY_S)) return Direction::DOWN;
+    if (IsKeyPressed(KEY_LEFT)  || IsKeyPressed(KEY_A)) return Direction::LEFT;
+    if (IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_D)) return Direction::RIGHT;
+    return std::nullopt;
 }
 
-bool InputHandler::isQuitKey(int key) const {
-    return (key == 'q' || key == 'Q');
+bool InputHandler::isQuitKey() const {
+    return IsKeyPressed(KEY_Q);
+}
+
+bool InputHandler::isPauseKey() const {
+    return IsKeyPressed(KEY_P);
 }

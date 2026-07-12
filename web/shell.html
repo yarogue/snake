@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Snake + Word Puzzle</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #0a0a1a;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      color: #c0c0ff;
+    }
+    #canvas-container {
+      border: 2px solid #3030aa;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 0 40px rgba(80, 60, 255, 0.2);
+    }
+    canvas { display: block; }
+    #loading {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+    #loading h2 { font-size: 24px; margin-bottom: 20px; }
+    #progress-bar {
+      width: 300px; height: 8px;
+      background: #1a1a3e;
+      border-radius: 4px;
+      overflow: hidden;
+      margin: 0 auto;
+    }
+    #progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #5050ff, #a050ff);
+      width: 0%;
+      transition: width 0.2s;
+      border-radius: 4px;
+    }
+    .footer {
+      margin-top: 15px;
+      font-size: 12px;
+      opacity: 0.4;
+    }
+  </style>
+</head>
+<body>
+  <div id="loading">
+    <h2>Loading Snake + Word Puzzle...</h2>
+    <div id="progress-bar"><div id="progress-fill"></div></div>
+  </div>
+  <div id="canvas-container">
+    <canvas id="canvas" oncontextmenu="event.preventDefault()" tabindex="-1"></canvas>
+  </div>
+  <p class="footer">WASD / Arrow Keys to move &bull; P to pause &bull; Q to quit</p>
+
+  <script>
+    var Module = {
+      canvas: (function() { return document.getElementById('canvas'); })(),
+      setStatus: function(text) {
+        var m = text.match(/([^(]+)\((\d+(\.\d+)?)\/(\d+)\)/);
+        var progress = document.getElementById('progress-fill');
+        var loading = document.getElementById('loading');
+        if (m) {
+          progress.style.width = (parseInt(m[2]) / parseInt(m[4]) * 100) + '%';
+        } else if (text === '') {
+          loading.style.display = 'none';
+        }
+      }
+    };
+  </script>
+  {{{ SCRIPT }}}
+</body>
+</html>
